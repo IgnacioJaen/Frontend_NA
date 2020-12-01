@@ -3,17 +3,14 @@ package com.example.frontend.api;
 import com.example.frontend.model.User;
 import com.example.frontend.model.UserRequest;
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
+import retrofit2.http.*;
 
 import java.util.ArrayList;
 
 public interface UserApi {
 
-    @GET("/userRequest/login?email=jps@gmail.com&password=vdsvds44")
-    Call<Integer> getId();
+    @GET("userRequest/login")
+    Call<Integer> getId(@Query("email") String email, @Query("password") String password);
 
     /*
     @FormUrlEncoded
