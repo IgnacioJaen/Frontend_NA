@@ -5,11 +5,21 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.frontend.R;
+import com.example.frontend.api.UserApi;
+import com.example.frontend.model.User;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -21,6 +31,8 @@ public class SignUpActivity extends AppCompatActivity {
     RadioButton female, male;
     RadioButton basic, premium;
     RadioButton client, admi;
+    String genderSelected, userTypeSelected;
+    Integer  accountTypeSelected;
     Calendar calendar = Calendar.getInstance();
     Button registerButton;
 
@@ -98,6 +110,69 @@ public class SignUpActivity extends AppCompatActivity {
                     });
 
                     alert.show();
+                }else {
+                    HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+                    loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
+                    OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(loggingInterceptor).build();
+
+                    Retrofit retrofit=new Retrofit.Builder()
+                            //.baseUrl("https://jsonplaceholder.typicode.com/")
+                            .baseUrl("http://192.168.31.148:8081/v1/user/")
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .client(httpClient)
+                            .build();
+                    UserApi userApi= retrofit.create(UserApi.class);
+
+                    if(male.isChecked()){
+                        genderSelected = male.getText().toString();
+                    }else{
+                        genderSelected = female.getText().toString();
+                    }
+
+                    if(basic.isChecked()){
+                        accountTypeSelected = 1;
+                    }else{
+                        accountTypeSelected = 2;
+                    }
+
+                    if(client.isChecked()){
+                        userTypeSelected = "Client";
+                    }else{
+                        userTypeSelected = "Admi";
+                    }
+
+                    User user = new User();
+                    user.setAccountTypeId(accountTypeSelected);
+                    user.setName(name.getText().toString());
+                    user.setSurname(surname.getText().toString());
+                    user.setBirthdate(etBirthdate.getText().toString());
+                    user.setUserType(userTypeSelected);
+                    user.setEmail(email.getText().toString());
+                    user.setPassword(password.getText().toString());
+                    user.setGender(genderSelected);
+                    user.setUserPhoto("URL");
+
+                    Call<User> call = userApi.createUser(user);
+
+                    //Call<User> call = userApi.createUser(userTypeSelected, accountTypeSelected, name.getText().toString(),surname.getText().toString(), etBirthdate.getText().toString(), genderSelected, email.getText().toString(), password.getText().toString(),"URL");
+
+                    call.enqueue(new Callback<User>() {
+                        @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                            if (!response.isSuccessful()) {
+                                Log.d("code","Code: " + response.code());
+                                return;
+                            }
+                            Intent intent = new Intent (SignUpActivity.this, LogInActivity.class);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+                            Log.d("code","Code: " + t.getMessage());
+                            return;
+                        }
+                    });
                 }
             }
         });

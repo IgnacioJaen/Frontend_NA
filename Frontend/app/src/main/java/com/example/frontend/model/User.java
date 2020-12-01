@@ -6,7 +6,6 @@ public class User {
     private Integer userId;
     private String userType;
     private Integer accountTypeId;
-    private String accountType;
     private String name;
     private String surname;
     private String birthdate;
@@ -19,12 +18,6 @@ public class User {
     // Constructor de la clase User, instanciando el objeto Transaction
 
     // Setters Y Getters generados para los demas atributos de la clase User
-    public String getAccountType() {
-        return accountType;
-    }
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
 
     public String getUserType() {
         return userType;
@@ -106,7 +99,6 @@ public class User {
                 "userId=" + userId +
                 ", userType='" + userType + '\'' +
                 ", accountTypeId=" + accountTypeId +
-                ", accountType='" + accountType + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", birthdate='" + birthdate + '\'' +

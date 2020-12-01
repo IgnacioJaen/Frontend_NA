@@ -12,17 +12,7 @@ public interface UserApi {
     @GET("userRequest/login")
     Call<Integer> getId(@Query("email") String email, @Query("password") String password);
 
-    /*
-    @FormUrlEncoded
-    @POST()
-    Call<User> createUser(
-            @Field("name") String name,
-            @Field("surname") String surname,
-            @Field("userType") Integer userType,
-            @Field("userType") Integer userType,
-            @Field("userType") Integer userType,
-            @Field("userType") Integer userType,
-
-            );*/
+    @POST("post")
+    Call<User> createUser(@Body User user);
 
 }

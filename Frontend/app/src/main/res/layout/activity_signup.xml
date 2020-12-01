@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/ScrollView01"
+            android:background="@drawable/noappfondoacuarela"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical">
+
     <LinearLayout
             android:layout_width="fill_parent"
             android:orientation="vertical"
+            android:background="@drawable/noappfondoacuarela"
             android:layout_height="fill_parent">
 
         <TextView
@@ -15,13 +18,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Formulario de Registro"
-                android:textSize="10pt">
+                android:textSize="45dp">
         </TextView>
 
         <EditText
                 android:id="@+id/etName"
                 android:layout_height="wrap_content"
                 android:hint="Nombre"
+                android:textSize="23dp"
                 android:layout_width="fill_parent">
         </EditText>
 
@@ -29,6 +33,7 @@
                 android:id="@+id/etSurname"
                 android:layout_height="wrap_content"
                 android:hint="Apellido"
+                android:textSize="23dp"
                 android:layout_width="fill_parent">
         </EditText>
 
@@ -36,6 +41,7 @@
                 android:id="@+id/etEmail"
                 android:layout_height="wrap_content"
                 android:hint="Email"
+                android:textSize="23dp"
                 android:layout_width="fill_parent">
         </EditText>
 
@@ -47,6 +53,8 @@
             <RadioButton
                     android:id="@+id/radioMale"
                     android:layout_width="match_parent"
+                    android:textSize="20dp"
+                    android:buttonTint="#4B4DC6"
                     android:layout_height="wrap_content"
                     android:paddingBottom="15dp"
                     android:paddingTop="15dp"
@@ -57,6 +65,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="15dp"
+                    android:textSize="20dp"
+                    android:buttonTint="#4B4DC6"
                     android:paddingTop="15dp"
                     android:text="Masculino"/>
 
@@ -66,6 +76,7 @@
                 android:id="@+id/etBirthdate"
                 android:layout_height="wrap_content"
                 android:hint="Birthdate"
+                android:textSize="23dp"
                 android:layout_width="fill_parent">
         </EditText>
 
@@ -79,7 +90,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="15dp"
+                    android:buttonTint="#4B4DC6"
                     android:paddingTop="15dp"
+                    android:textSize="20dp"
                     android:text="Plan Basico"/>
 
             <RadioButton
@@ -87,7 +100,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="15dp"
+                    android:buttonTint="#4B4DC6"
                     android:paddingTop="15dp"
+                    android:textSize="20dp"
                     android:text="Plan Premium"/>
 
         </RadioGroup>
@@ -97,6 +112,7 @@
                 android:id="@+id/etPassword"
                 android:layout_height="wrap_content"
                 android:hint="Password"
+                android:textSize="23dp"
                 android:layout_width="fill_parent">
         </EditText>
 
@@ -110,7 +126,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="15dp"
+                    android:textSize="20dp"
                     android:paddingTop="15dp"
+                    android:buttonTint="#4B4DC6"
                     android:text="Cliente"/>
 
             <RadioButton
@@ -118,6 +136,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="15dp"
+                    android:textSize="20dp"
+                    android:buttonTint="#4B4DC6"
                     android:paddingTop="15dp"
                     android:text="Administrador"/>
 
@@ -128,6 +148,12 @@
                 android:layout_height="wrap_content"
                 android:text="Registrar"
                 android:onClick="sendFeedback"
+                android:background="@drawable/rectangle_signup"
+                android:textSize="17dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textColor="#A8F5FF"
+                android:layout_marginBottom="15dp"
                 android:layout_width="fill_parent">
         </Button>
 
