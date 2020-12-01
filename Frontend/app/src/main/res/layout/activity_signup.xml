@@ -101,12 +101,12 @@
         </EditText>
 
         <RadioGroup
-                android:id="@+id/RadioUserType"
+                android:id="@+id/radioUserType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
             <RadioButton
-                    android:id="@+id/RadioClient"
+                    android:id="@+id/radioClient"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="15dp"
@@ -114,7 +114,7 @@
                     android:text="Cliente"/>
 
             <RadioButton
-                    android:id="@+id/RadioAdmi"
+                    android:id="@+id/radioAdmi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="15dp"
@@ -124,7 +124,7 @@
         </RadioGroup>
 
         <Button
-                android:id="@+id/ButtonSendFeedback"
+                android:id="@+id/registerButton"
                 android:layout_height="wrap_content"
                 android:text="Registrar"
                 android:onClick="sendFeedback"

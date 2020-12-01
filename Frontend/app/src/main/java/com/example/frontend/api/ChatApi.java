@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public interface ChatApi {
     @Headers({"Accept: application/json"})
-    @GET("chats?userId=1")
-    Call<ArrayList<ChatRequest>> getChats();
+    @GET("chats/")
+    Call<ArrayList<ChatRequest>> getChats(@Query("userId") int userId);
 
     @GET("{chatId}")
     Call<ArrayList<Chat>> getChatById(@Path("chatId") Integer chatId);

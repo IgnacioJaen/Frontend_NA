@@ -29,6 +29,8 @@ public class ChatActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_chat);
 
+            int userId = getIntent().getIntExtra("userId", 0);
+
             chatView = findViewById(R.id.chatRecView);
             chatView.setHasFixedSize(true);
             chatLayout = new LinearLayoutManager(this);
@@ -46,7 +48,7 @@ public class ChatActivity extends AppCompatActivity {
                     .build();
             ChatApi chatApi= retrofit.create(ChatApi.class);
 
-            Call<ArrayList<ChatRequest>> call = chatApi.getChats();
+            Call<ArrayList<ChatRequest>> call = chatApi.getChats(userId);
 
             call.enqueue(new Callback<ArrayList<ChatRequest>>() {
 
@@ -82,7 +84,6 @@ public class ChatActivity extends AppCompatActivity {
                     chats.add(cr);
                     chatAdapter = new ChatAdapter(chats);
                     chatView.setAdapter(chatAdapter);
-                    return;
                 }
 
             });

@@ -22,7 +22,7 @@ public class LogInActivity extends AppCompatActivity {
 
     private Button loginButton;
     private Button signupButton;
-    private Integer userId;
+    int userId = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class LogInActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.login_button);
         signupButton = findViewById(R.id.signup_button);
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+       /* HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(loggingInterceptor).build();
 
@@ -62,13 +62,13 @@ public class LogInActivity extends AppCompatActivity {
                 return;
             }
         });
-
+*/
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (v.getContext(), MainActivity.class);
+                Intent intent = new Intent (LogInActivity.this, MainActivity.class);
                 intent.putExtra("userId",userId);
-                startActivityForResult(intent, 0);
+                startActivity(intent);
             }
         });
 
@@ -76,7 +76,7 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (v.getContext(), SignUpActivity.class);
-                startActivityForResult(intent, 0);
+                startActivity(intent);
             }
         });
     }

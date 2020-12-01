@@ -12,11 +12,15 @@ import com.example.frontend.R;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView textViewResult;
     private Button chatButton;
+    int userId;
+    //int userId = getIntent().getExtras().getInt("userId");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        userId = getIntent().getIntExtra("userId", 0);
 
         textViewResult= findViewById(R.id.text_view_result);
         chatButton = findViewById(R.id.chat_button);
@@ -27,7 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent (v.getContext(), ChatActivity.class);
-        startActivityForResult(intent, 0);
+        Intent intent = new Intent (MainActivity.this, ChatActivity.class);
+        intent.putExtra("userId",userId);
+        startActivity(intent);
     }
 }
