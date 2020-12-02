@@ -59,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
                          Intent activityChangeIntent = new Intent(MainActivity.this, CategoryActivity.class);
                          MainActivity.this.startActivity(activityChangeIntent);
                      }
+                    if(item.getItemId() == R.id.user_button){
+                        Intent intent = new Intent(MainActivity.this, UserActivity.class);
+                        intent.putExtra("userId",userId);
+                        startActivity(intent);
+                    }
 
                      return true;
                 }

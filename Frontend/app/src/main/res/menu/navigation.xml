@@ -8,4 +8,9 @@
             android:id="@+id/category_button"
             android:icon="@drawable/list"
             android:title="Categorias"></item>
+
+    <item
+            android:id="@+id/user_button"
+            android:icon="@drawable/usersilueta"
+            android:title="Perfil"></item>
 </menu>
