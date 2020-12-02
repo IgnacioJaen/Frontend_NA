@@ -35,6 +35,7 @@ public class AddCategoryActivity extends AppCompatActivity {
 
         name = findViewById(R.id.etName);
         btnNext = findViewById(R.id.btnNext);
+        btnBack = findViewById(R.id.btnBack);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +78,7 @@ public class AddCategoryActivity extends AppCompatActivity {
                                 Log.d("code","Code: " + response.code());
                                 return;
                             }
+                            Toast.makeText(getApplicationContext(), "Categoria agregada exitosamente", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent (AddCategoryActivity.this, CategoryActivity.class);
                             startActivity(intent);
                         }

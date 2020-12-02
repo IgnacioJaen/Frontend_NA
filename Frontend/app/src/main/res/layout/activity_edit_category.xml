@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/addbackground"
+        tools:context=".activity.EditCategoryActivity">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <Button
+                android:layout_marginLeft="10dp"
+                android:layout_width="40dp"
+                android:background="@null"
+                android:layout_height="40dp" android:id="@+id/btnBack" android:layout_marginTop="20dp"
+                android:foreground="@drawable/ic_back"/>
+        <TextView
+                android:text="Editar Categoria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/textView3" android:layout_marginTop="10dp"
+                android:textStyle="bold" android:textAllCaps="true" android:textSize="24sp" android:gravity="center"/>
+        <Button
+                android:layout_width="45dp"
+                android:background="@null"
+                android:layout_height="55dp" android:id="@+id/btnDelete"
+                android:layout_gravity="end" android:layout_marginTop="10dp" android:layout_marginRight="25dp"
+                android:foreground="@android:drawable/ic_menu_delete"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_marginTop="10dp">
+            <ImageView
+                    android:layout_width="225dp"
+                    android:layout_height="225dp" app:srcCompat="@android:drawable/ic_menu_gallery"
+                    android:id="@+id/imageView" android:layout_marginLeft="55dp"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <Button
+                        android:text="CAMARA"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/btnCamera" android:layout_marginTop="25dp"
+                        android:drawableBottom="@android:drawable/ic_menu_camera"/>
+                <Button
+                        android:text="SUBIR"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/btnUpload"
+                        android:drawableBottom="@android:drawable/ic_menu_upload"/>
+            </LinearLayout>
+        </LinearLayout>
+        <TextView
+                android:text="Nombre de la categoria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/textView" android:textStyle="bold|italic"
+                android:textSize="18sp" android:gravity="center"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/etName" android:layout_gravity="center" android:textColor="#A5A0A0"
+                android:layout_marginLeft="50dp" android:layout_marginRight="50dp" android:layout_marginTop="5dp"/>
+        <Button
+                android:text="CONTINUAR"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content" android:id="@+id/btnNext"
+                android:layout_marginTop="15dp" android:layout_gravity="center"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

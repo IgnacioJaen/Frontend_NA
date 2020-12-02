@@ -8,10 +8,19 @@ import java.util.ArrayList;
 
 public interface CategoryApi {
     @Headers({"Accept: application/json"})
-    @GET("categories")
+    @GET("allCategories")
     Call<ArrayList<CategoryRequest>> getCategories();
 
     @POST("category")
     Call<Category> createCategory(@Body Category category);
+
+    @GET("category/categories/")
+    Call<Category> getCategory(@Query("categoryId") int categoryId);
+
+    @PUT("category")
+    Call<Category> editCategory(@Body Category category);
+
+
+
 
 }

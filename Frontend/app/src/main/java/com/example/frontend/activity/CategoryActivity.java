@@ -27,6 +27,7 @@ public class CategoryActivity extends AppCompatActivity {
     private CategoryAdapter categoryAdapter;
     private RecyclerView.LayoutManager categoryLayout;
     private ArrayList<CategoryRequest> category;
+    private int categoryId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +88,10 @@ public class CategoryActivity extends AppCompatActivity {
                 categoryAdapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-                        changeItem(position,"Clicked");
+                        categoryId=position+1;
+                        Intent intent = new Intent (CategoryActivity.this, EditCategoryActivity.class);
+                        intent.putExtra("categoryId",categoryId);
+                        startActivity(intent);
                     }
                 });
             }
@@ -106,8 +110,5 @@ public class CategoryActivity extends AppCompatActivity {
         });
 
     }
-    public void changeItem(int position, String text){
-        category.get(position).setNameCategory("CLICK");
-        categoryAdapter.notifyItemChanged(position);
-    }
+
 }
