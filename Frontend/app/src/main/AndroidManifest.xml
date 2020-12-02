@@ -28,6 +28,12 @@
         </activity>
         <activity android:name=".activity.SignUpActivity">
         </activity>
+        <activity android:name=".activity.CategoryActivity">
+        </activity>
+        <activity android:name=".activity.AddCategoryActivity">
+        </activity>
+        <activity android:name=".activity.EditCategoryActivity">
+        </activity>
     </application>
 
 </manifest>

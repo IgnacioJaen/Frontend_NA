@@ -72,7 +72,9 @@ public class CategoryActivity extends AppCompatActivity {
 
         Retrofit retrofit=new Retrofit.Builder()
                 //.baseUrl("https://jsonplaceholder.typicode.com/")
-                .baseUrl("http://192.168.0.15:8080/v1/category/")
+                //.baseUrl("http://192.168.0.15:8080/v1/category/")
+                .baseUrl("http://192.168.31.148:8081/v1/category/")
+                //.baseUrl("http://localhost:8081/v1/category/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient)
                 .build();
@@ -116,6 +118,7 @@ public class CategoryActivity extends AppCompatActivity {
                 //textViewResult.setText(t.getMessage());
                 CategoryRequest cr = new CategoryRequest();
                 cr.setNameCategory("Code: "+t.getMessage());
+                Log.d("codigo: ", ""+t.getMessage());
                 category.add(cr);
                 categoryAdapter = new CategoryAdapter(category);
                 categoryView.setAdapter(categoryAdapter);
