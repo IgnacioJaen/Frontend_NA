@@ -49,6 +49,7 @@ public class EditCategoryActivity extends AppCompatActivity {
         Retrofit retrofit=new Retrofit.Builder()
                 //.baseUrl("https://jsonplaceholder.typicode.com/")
                 .baseUrl("http://192.168.0.15:8080/v1/")
+                //.baseUrl("http://localhost:8080/v1/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient)
                 .build();
@@ -88,6 +89,32 @@ public class EditCategoryActivity extends AppCompatActivity {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Category category = new Category();
+                category.setCategoryId(categoryId);
+                CategoryApi categoryApi3= retrofit.create(CategoryApi.class);
+                Call<Category> call3 = categoryApi3.deleteCategory(category);
+
+                call3.enqueue(new Callback<Category>() {
+                    @Override
+                    public void onResponse(Call<Category> call3, Response<Category> response) {
+                        if (!response.isSuccessful()) {
+                            Log.d("code","Code: " + response.code());
+                            Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        Toast.makeText(getApplicationContext(), "Categoria eliminada exitosamente", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent (EditCategoryActivity.this, CategoryActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(Call<Category> call, Throwable t) {
+                        Log.d("code","Code: " + t.getMessage());
+                        Toast.makeText(getApplicationContext(), "3", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                });
 
             }
         });

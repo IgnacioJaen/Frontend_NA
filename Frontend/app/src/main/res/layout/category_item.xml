@@ -5,7 +5,7 @@
                                    android:layout_height="wrap_content"
                                    android:id="@+id/cardView"
                                    android:layout_margin="5dp"
-                                   card_view:cardBackgroundColor="@color/cardview_dark_background"
+                                   card_view:cardBackgroundColor="#000000"
                                    card_view:cardCornerRadius="5dp"
                                    card_view:cardElevation="5dp"
                                    card_view:contentPadding="5dp"
@@ -15,7 +15,7 @@
     <LinearLayout android:orientation="horizontal"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:background="@color/cardview_light_background"
+                  android:background="#F05F7FDD"
                   android:padding="5dp">
         <ImageView
                 android:id="@+id/ivImagen"
@@ -37,8 +37,8 @@
                     android:layout_weight="1"
                     android:text="Categoria"
                     android:gravity="bottom"
-                    android:textSize="30sp"
-                    android:textColor="#000000"
+                    android:textSize="25sp"
+                    android:textColor="#FFFFFF"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"/>
             <TextView
@@ -47,8 +47,8 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:text="Pulsa aqui para editar"
-                    android:textSize="20sp"
-                    android:textColor="#6c6a6a"
+                    android:textSize="18sp"
+                    android:textColor="#CAC5C5"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"/>
         </LinearLayout>

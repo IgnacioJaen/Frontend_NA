@@ -20,6 +20,9 @@ public interface CategoryApi {
     @PUT("category")
     Call<Category> editCategory(@Body Category category);
 
+    @PUT("category/delete")
+    Call<Category> deleteCategory(@Body Category category);
+
 
 
 

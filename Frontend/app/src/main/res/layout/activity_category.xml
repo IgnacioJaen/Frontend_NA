@@ -11,44 +11,55 @@ android:layout_height="match_parent"
 android:background="@drawable/fondoceleste"
 tools:context=".activity.CategoryActivity">
 
+    <Button
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@null"
+                android:id="@+id/btnBack"
+                android:foreground="@drawable/ic_back"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"/>
+
     <ListView
             android:id="@+id/lvToDoList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-<com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:background="@null"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_add"
-        app:layout_anchor="@id/lvToDoList"
-        android:clickable="true"
-        app:fabSize="normal"
-        app:backgroundTint="#6956BE"
-        android:elevation="6dp"
-        app:layout_anchorGravity="bottom|right|end" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:padding="5dp"
+            android:background="@null"
+            android:layout_margin="16dp"
+            app:layout_anchor="@id/lvToDoList"
+            android:clickable="true"
+            app:fabSize="normal"
+            app:backgroundTint="#EA5045"
+            app:layout_anchorGravity="bottom|right|end" android:foreground="@drawable/ic_add"/>
 
-<androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
->
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/chatRecView"
-            android:padding="4dp"
-            android:scrollbars="vertical"
-            android:background="@drawable/fondoceleste"
+    <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-    >
+            android:layout_marginTop="60dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/chatRecView"
+                android:padding="4dp"
+                android:scrollbars="vertical"
+                android:background="@drawable/fondoceleste"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+        >
+
+        </androidx.recyclerview.widget.RecyclerView>
 
 
-</androidx.core.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

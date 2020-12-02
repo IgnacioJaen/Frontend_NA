@@ -1,7 +1,10 @@
 package com.example.frontend.activity;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,11 +31,14 @@ public class CategoryActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager categoryLayout;
     private ArrayList<CategoryRequest> category;
     private int categoryId;
+    Button btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
+
+        btnBack = findViewById(R.id.btnBack);
 
         FloatingActionButton fab = findViewById(R.id.fabAdd);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +49,15 @@ public class CategoryActivity extends AppCompatActivity {
             }
         });
 
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(getApplicationContext(), "213", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent (CategoryActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         int userId = getIntent().getIntExtra("userId", 0);
 
