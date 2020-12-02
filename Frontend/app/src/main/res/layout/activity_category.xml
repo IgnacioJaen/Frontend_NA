@@ -21,6 +21,7 @@ tools:context=".activity.CategoryActivity">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
+        android:background="@null"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add"
         app:layout_anchor="@id/lvToDoList"

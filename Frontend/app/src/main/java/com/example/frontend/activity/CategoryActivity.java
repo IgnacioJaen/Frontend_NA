@@ -37,7 +37,7 @@ public class CategoryActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent activityChangeIntent = new Intent(CategoryActivity.this, MainActivity.class);
+                Intent activityChangeIntent = new Intent(CategoryActivity.this, AddCategoryActivity.class);
                 CategoryActivity.this.startActivity(activityChangeIntent);
             }
         });
