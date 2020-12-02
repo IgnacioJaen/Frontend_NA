@@ -29,5 +29,14 @@
             android:text="CHATS"
             android:background="@color/cardview_dark_background"
     ></Button>
+    <Button
+            android:id="@+id/btnCategories"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:text="Categorias"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="300dp"
+            android:background="@color/cardview_shadow_start_color"
+    ></Button>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

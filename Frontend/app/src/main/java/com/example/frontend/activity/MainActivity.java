@@ -12,6 +12,7 @@ import com.example.frontend.R;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView textViewResult;
     private Button chatButton;
+    private Button btnCategories;
     int userId;
     //int userId = getIntent().getExtras().getInt("userId");
 
@@ -23,10 +24,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         userId = getIntent().getIntExtra("userId", 0);
 
         textViewResult= findViewById(R.id.text_view_result);
-        chatButton = findViewById(R.id.chat_button);
 
+        chatButton = findViewById(R.id.chat_button);
         chatButton.setOnClickListener(this);
 
+        btnCategories = findViewById(R.id.btnCategories);
+        btnCategories.setOnClickListener(this);
+
+        btnCategories.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent activityChangeIntent = new Intent(MainActivity.this, CategoryActivity.class);
+                MainActivity.this.startActivity(activityChangeIntent);
+            }
+        });
     }
 
     @Override
@@ -35,4 +46,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intent.putExtra("userId",userId);
         startActivity(intent);
     }
+
+
 }
