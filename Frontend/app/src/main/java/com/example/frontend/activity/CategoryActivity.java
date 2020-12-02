@@ -103,7 +103,7 @@ public class CategoryActivity extends AppCompatActivity {
                 categoryAdapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-                        categoryId=position+1;
+                        categoryId=category.get(position).getCategoryId();
                         Intent intent = new Intent (CategoryActivity.this, EditCategoryActivity.class);
                         intent.putExtra("categoryId",categoryId);
                         startActivity(intent);
