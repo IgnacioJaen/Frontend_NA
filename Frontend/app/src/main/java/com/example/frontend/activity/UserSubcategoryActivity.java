@@ -97,7 +97,7 @@ public class UserSubcategoryActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (UserSubcategoryActivity.this, CategoryActivity.class);
+                Intent intent = new Intent (UserSubcategoryActivity.this, UserCategoryActivity.class);
                 intent.putExtra("userId",userId);
                 startActivity(intent);
             }
@@ -107,7 +107,8 @@ public class UserSubcategoryActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (UserSubcategoryActivity.this, AddSubcategoryActivity.class);
+                Toast.makeText(getApplicationContext(), "Subcategorias agregadas correctamente", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent (UserSubcategoryActivity.this, UserCategoryActivity.class);
                 intent.putExtra("categoryId",categoryId);
                 intent.putExtra("userId",userId);
                 startActivity(intent);
