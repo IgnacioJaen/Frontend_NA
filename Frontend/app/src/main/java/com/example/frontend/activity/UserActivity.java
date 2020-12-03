@@ -35,8 +35,11 @@ public class UserActivity extends AppCompatActivity  {
         categoryCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent (UserActivity.this, UserCategoryActivity.class);
+                intent.putExtra("userId",userId);
+                startActivity(intent);
             }
         });
+
     }
 }
