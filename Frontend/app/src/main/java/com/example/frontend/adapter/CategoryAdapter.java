@@ -1,8 +1,10 @@
 package com.example.frontend.adapter;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +19,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     private ArrayList<CategoryRequest> mCategoryList;
     private OnItemClickListener categoryListener;
 
+
     public interface OnItemClickListener{
         void onItemClick(int position);
     }
@@ -28,17 +31,21 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public static class CategoryViewHolder extends RecyclerView.ViewHolder{
         public TextView tvTitulo;
         public TextView tvSubitulo;
+        //private LinearLayout lyCategory;
 
         public CategoryViewHolder(@NonNull @NotNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             tvTitulo = itemView.findViewById(R.id.tvTitulo);
             tvSubitulo = itemView.findViewById(R.id.tvSubtitulo);
 
+            //lyCategory = itemView.findViewById(R.id.lyCategory);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(listener!=null){
                         int position = getAdapterPosition();
+                        //lyCategory.setBackgroundColor(Color.parseColor("#ffffff"));
                         if (position != RecyclerView.NO_POSITION){
                             listener.onItemClick(position);
                         }

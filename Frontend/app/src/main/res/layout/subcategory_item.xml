@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                   xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:id="@+id/cardView"
+                                   android:layout_margin="5dp"
+                                   card_view:cardBackgroundColor="#000000"
+                                   card_view:cardCornerRadius="5dp"
+                                   card_view:cardElevation="5dp"
+                                   card_view:contentPadding="5dp"
+                                   android:foreground="?selectableItemBackground"
+                                   android:clickable="true">
+
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="54dp"
+                  android:background="@drawable/bg3"
+                  android:padding="5dp">
+        <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Subcategoria"
+                android:gravity="bottom"
+                android:textSize="25sp"
+                android:textColor="#000"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+        <TextView
+                android:id="@+id/tvName2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="(pulsa para editar)"
+                android:gravity="bottom"
+                android:textSize="16sp"
+                android:textColor="#4E4E4E"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" android:textStyle="italic"/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

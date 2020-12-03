@@ -26,7 +26,7 @@ public class EditCategoryActivity extends AppCompatActivity {
 
     Integer categoryId;
     EditText name;
-    Button btnBack, btnNext, btnDelete, btnUpload, btnCamera;
+    Button btnBack, btnNext, btnDelete, btnSub, btnUpload, btnCamera;
     ImageView ivCategory;
 
     @Override
@@ -39,6 +39,7 @@ public class EditCategoryActivity extends AppCompatActivity {
         name = findViewById(R.id.etName);
 
         btnNext = findViewById(R.id.btnNext);
+        btnSub = findViewById(R.id.btnSub);
         btnDelete = findViewById(R.id.btnDelete);
         btnBack = findViewById(R.id.btnBack);
 
@@ -48,8 +49,8 @@ public class EditCategoryActivity extends AppCompatActivity {
 
         Retrofit retrofit=new Retrofit.Builder()
                 //.baseUrl("https://jsonplaceholder.typicode.com/")
-                //.baseUrl("http://192.168.0.15:8080/v1/")
-                .baseUrl("http://192.168.31.148:8081/v1/")
+                .baseUrl("http://192.168.0.15:8080/v1/")
+                //.baseUrl("http://192.168.31.148:8081/v1/")
                 //.baseUrl("http://localhost:8080/v1/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient)
@@ -83,6 +84,15 @@ public class EditCategoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (EditCategoryActivity.this, CategoryActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnSub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (EditCategoryActivity.this, SubcategoryActivity.class);
+                intent.putExtra("categoryId",categoryId);
                 startActivity(intent);
             }
         });

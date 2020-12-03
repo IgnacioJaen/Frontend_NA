@@ -23,12 +23,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/textView3" android:layout_marginTop="10dp"
                 android:textStyle="bold" android:textAllCaps="true" android:textSize="24sp" android:gravity="center"/>
-        <Button
-                android:layout_width="45dp"
-                android:background="@null"
-                android:layout_height="55dp" android:id="@+id/btnDelete"
-                android:layout_gravity="end" android:layout_marginTop="10dp" android:layout_marginRight="25dp"
-                android:foreground="@android:drawable/ic_menu_delete"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <Button
+                    android:text="Editar Subcategorias"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/btnSub" android:layout_weight="1"
+                    android:layout_marginTop="10dp" android:layout_marginLeft="30dp" android:background="#37B643"/>
+            <Button
+                    android:layout_width="45dp"
+                    android:background="@null"
+                    android:layout_height="55dp" android:id="@+id/btnDelete"
+                    android:layout_gravity="end" android:layout_marginTop="10dp" android:layout_marginRight="25dp"
+                    android:foreground="@android:drawable/ic_menu_delete" android:layout_marginLeft="25dp"/>
+        </LinearLayout>
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
@@ -66,8 +76,8 @@
                 android:id="@+id/etName" android:layout_gravity="center" android:textColor="#A5A0A0"
                 android:layout_marginLeft="50dp" android:layout_marginRight="50dp" android:layout_marginTop="5dp"/>
         <Button
-                android:text="CONTINUAR"
-                android:layout_width="150dp"
+                android:text="GUARDAR"
+                android:layout_width="126dp"
                 android:layout_height="wrap_content" android:id="@+id/btnNext"
                 android:layout_marginTop="15dp" android:layout_gravity="center"/>
     </LinearLayout>

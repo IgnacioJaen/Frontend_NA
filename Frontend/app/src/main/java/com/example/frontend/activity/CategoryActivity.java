@@ -1,12 +1,15 @@
 package com.example.frontend.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.frontend.R;
@@ -27,6 +30,7 @@ import java.util.ArrayList;
 public class CategoryActivity extends AppCompatActivity {
 
     private RecyclerView categoryView;
+
     private CategoryAdapter categoryAdapter;
     private RecyclerView.LayoutManager categoryLayout;
     private ArrayList<CategoryRequest> category;
@@ -40,6 +44,7 @@ public class CategoryActivity extends AppCompatActivity {
 
         btnBack = findViewById(R.id.btnBack);
 
+
         FloatingActionButton fab = findViewById(R.id.fabAdd);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,16 +57,12 @@ public class CategoryActivity extends AppCompatActivity {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Toast.makeText(getApplicationContext(), "213", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent (CategoryActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
 
-        int userId = getIntent().getIntExtra("userId", 0);
-
-        categoryView = findViewById(R.id.chatRecView);
+        categoryView = findViewById(R.id.categoryRecView);
         categoryView.setHasFixedSize(true);
         categoryLayout = new LinearLayoutManager(this);
         categoryView.setLayoutManager(categoryLayout);
@@ -72,8 +73,8 @@ public class CategoryActivity extends AppCompatActivity {
 
         Retrofit retrofit=new Retrofit.Builder()
                 //.baseUrl("https://jsonplaceholder.typicode.com/")
-                //.baseUrl("http://192.168.0.15:8080/v1/category/")
-                .baseUrl("http://192.168.31.148:8081/v1/category/")
+                .baseUrl("http://192.168.0.15:8080/v1/category/")
+                //.baseUrl("http://192.168.31.148:8081/v1/category/")
                 //.baseUrl("http://localhost:8081/v1/category/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient)
@@ -81,9 +82,7 @@ public class CategoryActivity extends AppCompatActivity {
 
 
         CategoryApi categoryApi= retrofit.create(CategoryApi.class);
-
         Call<ArrayList<CategoryRequest>> call = categoryApi.getCategories();
-
         call.enqueue(new Callback<ArrayList<CategoryRequest>>() {
 
             @Override
