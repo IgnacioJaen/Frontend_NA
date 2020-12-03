@@ -1,6 +1,9 @@
 package com.example.frontend.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,18 +26,30 @@ public class ChatActivity extends AppCompatActivity {
         private ChatAdapter chatAdapter;
         private RecyclerView.LayoutManager chatLayout;
         private ArrayList<ChatRequest> chats;
+        int userId;
+        private Button btnBack;
 
     @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_chat);
 
-            int userId = getIntent().getIntExtra("userId", 0);
+            userId = getIntent().getIntExtra("userId", 0);
 
+            btnBack = findViewById(R.id.btnBack);
             chatView = findViewById(R.id.chatRecView);
             chatView.setHasFixedSize(true);
             chatLayout = new LinearLayoutManager(this);
             chatView.setLayoutManager(chatLayout);
+
+            btnBack.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent (ChatActivity.this, MainActivity.class);
+                    intent.putExtra("userId",userId);
+                    startActivity(intent);
+                }
+            });
 
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
@@ -89,7 +104,10 @@ public class ChatActivity extends AppCompatActivity {
             });
         }
         public void changeItem(int position, String text){
-            chats.get(position).changeContent(text);
-            chatAdapter.notifyItemChanged(position);
+            Intent intent = new Intent (ChatActivity.this, MessagesActivity.class);
+            intent.putExtra("userId",userId);
+            intent.putExtra("chatId",chats.get(position).getChatId());
+            startActivity(intent);
         }
+
     }

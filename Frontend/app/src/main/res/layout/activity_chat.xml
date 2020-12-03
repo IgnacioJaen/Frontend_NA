@@ -8,22 +8,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activity.ChatActivity">
+    <Button
+            android:layout_marginLeft="10dp"
+            android:layout_width="40dp"
+            android:background="@null"
+            android:layout_height="40dp" android:id="@+id/btnBack" android:layout_marginTop="20dp"
+            android:foreground="@drawable/ic_back"/>
 
     <androidx.core.widget.NestedScrollView
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-    >
+            android:layout_below="@+id/btnBack"
+            android:layout_marginTop="1dp">
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/chatRecView"
-            android:padding="4dp"
-            android:scrollbars="vertical"
-            android:background="@drawable/fondoceleste"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/chatRecView"
+                android:padding="4dp"
+                android:scrollbars="vertical"
+                android:background="@drawable/fondoceleste"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+        >
 
-    </androidx.recyclerview.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
     </androidx.core.widget.NestedScrollView>
 
 </RelativeLayout>

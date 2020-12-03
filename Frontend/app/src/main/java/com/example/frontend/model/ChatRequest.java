@@ -1,6 +1,7 @@
 package com.example.frontend.model;
 
 public class ChatRequest {
+    private int chatId;
     private String user2UserName;
     private String contentChat;
     private String dateChat;
@@ -14,6 +15,14 @@ public class ChatRequest {
 
     public void changeContent(String text){
         contentChat = text;
+    }
+
+    public int getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(int chatId) {
+        this.chatId = chatId;
     }
 
     public String getUser2UserName() {
@@ -43,6 +52,7 @@ public class ChatRequest {
     @Override
     public String toString() {
         return "ChatRequest{" +
+                "chatID='" + chatId + '\'' +
                 "profile2UserName='" + user2UserName + '\'' +
                 ", contentChat='" + contentChat + '\'' +
                 ", dateChat='" + dateChat + '\'' +
