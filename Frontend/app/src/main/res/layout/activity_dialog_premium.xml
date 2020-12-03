@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:orientation="vertical"
+              android:gravity="center"
+              android:layout_height="wrap_content">
+    <ImageView android:layout_width="match_parent" android:layout_height="80dp"
+               android:background="#8B00BCD4"
+               android:src="@drawable/ic_creditcard"
+               android:padding="8dp"
+
+    ></ImageView>
+
+    <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:hint="Número de Tarjeta"
+              android:id="@+id/etCardNumber"
+              ></EditText>
+    <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:hint="Vencimiento"
+                android:id="@+id/etExpiration"
+              ></EditText>
+    <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:hint="CSC"
+              android:id="@+id/etCsc"
+    ></EditText>
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Realizar Pago"
+            android:padding="5dp"
+            android:background="#5AEDB2"
+            android:id="@+id/payButton"
+            ></Button>
+</LinearLayout>

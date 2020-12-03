@@ -106,6 +106,16 @@
                 android:id="@+id/etPassword"
                 android:layout_height="wrap_content"
                 android:hint="Password"
+                android:inputType="textPassword"
+                android:textSize="23dp"
+                android:layout_width="fill_parent">
+        </EditText>
+
+        <EditText
+                android:id="@+id/etPasswordConfirmation"
+                android:layout_height="wrap_content"
+                android:hint="Password Confirmation"
+                android:inputType="textPassword"
                 android:textSize="23dp"
                 android:layout_width="fill_parent">
         </EditText>

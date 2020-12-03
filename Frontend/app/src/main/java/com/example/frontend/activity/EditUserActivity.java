@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class EditUserActivity extends AppCompatActivity {
-    EditText name, surname, email, password;
+    EditText name, surname, email, password, passwordConfir;
     RadioButton female, male;
     RadioButton basic, premium;
     Button updateButton;
@@ -52,6 +52,7 @@ public class EditUserActivity extends AppCompatActivity {
         male = findViewById(R.id.radioMale);
         basic = findViewById(R.id.radioBasic);
         premium = findViewById(R.id.radioPremium);
+        passwordConfir = findViewById(R.id.etPasswordConfirmation);
 
         int userId = getIntent().getIntExtra("userId", 0);
 
@@ -103,7 +104,10 @@ public class EditUserActivity extends AppCompatActivity {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (name.getText().toString().isEmpty()) {
+                if(!(password.getText().toString()).equals(passwordConfir.getText().toString())) {
+                    Toast.makeText(getApplicationContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                    return;
+                }else if (name.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Debes ingresar tu nombre", Toast.LENGTH_SHORT).show();
                     return;
                 } else if (surname.getText().toString().isEmpty()) {

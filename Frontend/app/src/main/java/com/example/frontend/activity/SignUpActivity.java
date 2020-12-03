@@ -4,8 +4,11 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 import androidx.annotation.Nullable;
@@ -26,10 +29,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class SignUpActivity extends AppCompatActivity {
     EditText etBirthdate;
-    EditText name, surname, email, password;
+    EditText name, surname, email, password, passwordConfir;
     RadioButton female, male;
     RadioButton basic, premium;
     RadioButton client, admi;
@@ -56,11 +60,15 @@ public class SignUpActivity extends AppCompatActivity {
         premium = findViewById(R.id.radioPremium);
         client = findViewById(R.id.radioClient);
         admi = findViewById(R.id.radioAdmi);
+        passwordConfir = findViewById(R.id.etPasswordConfirmation);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (etBirthdate.getText().toString().isEmpty()) {
+                if(!(password.getText().toString()).equals(passwordConfir.getText().toString())){
+                    Toast.makeText(getApplicationContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                    return;
+                }else if (etBirthdate.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Debes ingresar tu fecha de nacimiento", Toast.LENGTH_SHORT).show();
                     return;
                 } else if (name.getText().toString().isEmpty()) {
@@ -113,7 +121,33 @@ public class SignUpActivity extends AppCompatActivity {
 
                     alert.show();
                 }else {
-                    createUser();
+                    if(validateEmail(email.getText().toString())) {
+                        if(premium.isChecked()){
+                            AlertDialog.Builder alert = new AlertDialog.Builder(SignUpActivity.this);
+
+                            LayoutInflater inflater = getLayoutInflater();
+
+                            View view = inflater.inflate(R.layout.activity_dialog_premium, null);
+
+                            alert.setView(view);
+
+                            final AlertDialog dialog = alert.create();
+                            dialog.show();
+
+                            Button payButton= view.findViewById(R.id.payButton);
+                            payButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Toast.makeText(getApplicationContext(), "Bienvenido a Premium!", Toast.LENGTH_SHORT).show();
+                                    createUser();
+                                    dialog.dismiss();
+                                }
+                            });
+                        }
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Email inválido", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
             }
 
@@ -183,6 +217,11 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private boolean validateEmail(String email) {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
     }
 
     private void createUser() {
