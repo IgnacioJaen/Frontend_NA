@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,6 +46,10 @@ public class UserCategoryActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Categorias agregadas correctamente", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent (UserCategoryActivity.this, MainActivity.class);
+                intent.putExtra("userId",userId);
+                startActivity(intent);
 
             }
         });
