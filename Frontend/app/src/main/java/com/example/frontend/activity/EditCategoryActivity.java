@@ -24,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class EditCategoryActivity extends AppCompatActivity {
 
-    Integer categoryId;
+    Integer categoryId, userId;
     EditText name;
     Button btnBack, btnNext, btnDelete, btnSub, btnUpload, btnCamera;
     ImageView ivCategory;
@@ -34,7 +34,8 @@ public class EditCategoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_category);
 
-        categoryId = getIntent().getIntExtra("categoryId", 1);
+        categoryId = getIntent().getIntExtra("categoryId", 0);
+        userId = getIntent().getIntExtra("userId", 0);
 
         name = findViewById(R.id.etName);
 
@@ -84,6 +85,7 @@ public class EditCategoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (EditCategoryActivity.this, CategoryActivity.class);
+                intent.putExtra("userId",userId);
                 startActivity(intent);
             }
         });
@@ -93,6 +95,7 @@ public class EditCategoryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent (EditCategoryActivity.this, SubcategoryActivity.class);
                 intent.putExtra("categoryId",categoryId);
+                intent.putExtra("userId",userId);
                 startActivity(intent);
             }
         });
@@ -116,6 +119,7 @@ public class EditCategoryActivity extends AppCompatActivity {
                         }
                         Toast.makeText(getApplicationContext(), "Categoria eliminada exitosamente", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent (EditCategoryActivity.this, CategoryActivity.class);
+                        intent.putExtra("userId",userId);
                         startActivity(intent);
                     }
 
@@ -155,6 +159,7 @@ public class EditCategoryActivity extends AppCompatActivity {
                             }
                             Toast.makeText(getApplicationContext(), "Categoria editada exitosamente", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent (EditCategoryActivity.this, MainActivity.class);
+                            intent.putExtra("userId",userId);
                             startActivity(intent);
                         }
 

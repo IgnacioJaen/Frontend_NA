@@ -56,8 +56,9 @@ public class MainActivity extends AppCompatActivity {
                          startActivity(intent);
                      }
                      if(item.getItemId() == R.id.category_button){
-                         Intent activityChangeIntent = new Intent(MainActivity.this, CategoryActivity.class);
-                         MainActivity.this.startActivity(activityChangeIntent);
+                         Intent intent = new Intent (MainActivity.this, CategoryActivity.class);
+                         intent.putExtra("userId",userId);
+                         startActivity(intent);
                      }
                     if(item.getItemId() == R.id.user_button){
                         Intent intent = new Intent(MainActivity.this, UserActivity.class);

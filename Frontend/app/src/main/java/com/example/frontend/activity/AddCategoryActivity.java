@@ -26,12 +26,13 @@ public class AddCategoryActivity extends AppCompatActivity {
     EditText name;
     Button btnBack, btnNext, btnUpload, btnCamera;
     ImageView ivCategory;
+    Integer userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_category);
-
+        userId = getIntent().getIntExtra("userId", 0);
 
         name = findViewById(R.id.etName);
         btnNext = findViewById(R.id.btnNext);
@@ -41,6 +42,7 @@ public class AddCategoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (AddCategoryActivity.this, CategoryActivity.class);
+                intent.putExtra("userId",userId);
                 startActivity(intent);
             }
         });
@@ -81,6 +83,7 @@ public class AddCategoryActivity extends AppCompatActivity {
                             }
                             Toast.makeText(getApplicationContext(), "Categoria agregada exitosamente", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent (AddCategoryActivity.this, CategoryActivity.class);
+                            intent.putExtra("userId",userId);
                             startActivity(intent);
                         }
 

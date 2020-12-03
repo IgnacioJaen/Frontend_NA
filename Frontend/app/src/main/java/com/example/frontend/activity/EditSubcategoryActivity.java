@@ -26,7 +26,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class EditSubcategoryActivity extends AppCompatActivity {
 
-
+    Integer userId;
     EditText etName;
     Button btnSave, btnCancel, btnDelete;
     TextView tvSubcategory;
@@ -38,7 +38,7 @@ public class EditSubcategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_subcategory);
         subcategoryId = getIntent().getIntExtra("subcategoryId", 1);
         etName = findViewById(R.id.etName);
-
+        userId = getIntent().getIntExtra("userId", 0);
         btnDelete = findViewById(R.id.btnDelete);
         btnCancel = findViewById(R.id.btnCancel);
         btnSave = findViewById(R.id.btnSave);
@@ -113,6 +113,7 @@ public class EditSubcategoryActivity extends AppCompatActivity {
 
                             Toast.makeText(getApplicationContext(), "Subcategoria editada exitosamente", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent (EditSubcategoryActivity.this, CategoryActivity.class);
+                            intent.putExtra("userId",userId);
                             startActivity(intent);
 
                         }
@@ -134,6 +135,7 @@ public class EditSubcategoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (EditSubcategoryActivity.this, CategoryActivity.class);
+                intent.putExtra("userId",userId);
                 startActivity(intent);
             }
         });
@@ -158,6 +160,7 @@ public class EditSubcategoryActivity extends AppCompatActivity {
 
                         Toast.makeText(getApplicationContext(), "Subcategoria Eliminada exitosamente", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent (EditSubcategoryActivity.this, CategoryActivity.class);
+                        intent.putExtra("userId",userId);
                         startActivity(intent);
                     }
 

@@ -37,12 +37,13 @@ public class SubcategoryActivity extends AppCompatActivity {
     private int categoryId, subcategoryId;
     Button btnBack;
     Context context;
+    Integer userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subcategory);
-
+        userId = getIntent().getIntExtra("userId", 0);
         categoryId = getIntent().getIntExtra("categoryId", 1);
 
         subcategoryView = findViewById(R.id.subcategoryRecView);
@@ -87,6 +88,7 @@ public class SubcategoryActivity extends AppCompatActivity {
                         subcategoryId=subcategory.get(position).getSubcategoryId();
                         Intent intent = new Intent (SubcategoryActivity.this, EditSubcategoryActivity.class);
                         intent.putExtra("subcategoryId",subcategoryId);
+                        intent.putExtra("userId",userId);
                         startActivity(intent);
                     }
                 });
@@ -102,6 +104,7 @@ public class SubcategoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (SubcategoryActivity.this, CategoryActivity.class);
+                intent.putExtra("userId",userId);
                 startActivity(intent);
             }
         });
@@ -110,7 +113,8 @@ public class SubcategoryActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent (SubcategoryActivity.this, EditSubcategoryActivity.class);
+                Intent intent = new Intent (SubcategoryActivity.this, AddSubcategoryActivity.class);
+                intent.putExtra("userId",userId);
                 startActivity(intent);
             }
         });

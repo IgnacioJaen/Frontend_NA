@@ -34,7 +34,8 @@ public class CategoryActivity extends AppCompatActivity {
     private CategoryAdapter categoryAdapter;
     private RecyclerView.LayoutManager categoryLayout;
     private ArrayList<CategoryRequest> category;
-    private int categoryId;
+    Integer categoryId, userId;
+
     Button btnBack;
 
     @Override
@@ -43,14 +44,15 @@ public class CategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_category);
 
         btnBack = findViewById(R.id.btnBack);
-
+        userId = getIntent().getIntExtra("userId", 0);
 
         FloatingActionButton fab = findViewById(R.id.fabAdd);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent activityChangeIntent = new Intent(CategoryActivity.this, AddCategoryActivity.class);
-                CategoryActivity.this.startActivity(activityChangeIntent);
+                Intent intent = new Intent (CategoryActivity.this, AddCategoryActivity.class);
+                intent.putExtra("userId",userId);
+                startActivity(intent);
             }
         });
 
@@ -58,6 +60,7 @@ public class CategoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (CategoryActivity.this, MainActivity.class);
+                intent.putExtra("userId",userId);
                 startActivity(intent);
             }
         });
@@ -107,6 +110,7 @@ public class CategoryActivity extends AppCompatActivity {
                         categoryId=category.get(position).getCategoryId();
                         Intent intent = new Intent (CategoryActivity.this, EditCategoryActivity.class);
                         intent.putExtra("categoryId",categoryId);
+                        intent.putExtra("userId",userId);
                         startActivity(intent);
                     }
                 });
