@@ -1,5 +1,6 @@
 package com.example.frontend.api;
 
+import com.example.frontend.model.Category;
 import com.example.frontend.model.User;
 import com.example.frontend.model.UserRequest;
 import retrofit2.Call;
@@ -14,5 +15,12 @@ public interface UserApi {
 
     @POST("post")
     Call<User> createUser(@Body User user);
+
+    @GET("userRequest")
+    Call<User> getUser(@Query("userId") Integer userId);
+
+    @PUT("update")
+    Call<User> updateUser(@Body User user);
+
 
 }
