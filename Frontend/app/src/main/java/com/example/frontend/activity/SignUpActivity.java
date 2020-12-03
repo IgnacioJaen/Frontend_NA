@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.frontend.R;
 import com.example.frontend.api.UserApi;
 import com.example.frontend.model.User;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -35,6 +37,7 @@ public class SignUpActivity extends AppCompatActivity {
     Integer  accountTypeSelected;
     Calendar calendar = Calendar.getInstance();
     Button registerButton;
+    String userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,17 +92,16 @@ public class SignUpActivity extends AppCompatActivity {
                             " correspondiente a esta accion");
 
                     final EditText input = new EditText(SignUpActivity.this);
-                    alert.setView(input);
+                    final EditText pass = new EditText(SignUpActivity.this);
+                    LinearLayout ll=new LinearLayout(SignUpActivity.this);
+                    ll.setOrientation(LinearLayout.VERTICAL);
+                    ll.addView(input);
+                    ll.addView(pass);
+                    alert.setView(ll);
 
                     alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            if (input.getText().toString().equals("admi3454")){
-                                Toast.makeText(getApplicationContext(), "Password Correcto", Toast.LENGTH_SHORT).show();
-                                return;
-                            }else{
-                                Toast.makeText(getApplicationContext(), "Password Incorrecto", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
+                            checkAdmiEmailPassword(input.getText().toString(),pass.getText().toString());
                         }
                     });
 
@@ -111,69 +113,54 @@ public class SignUpActivity extends AppCompatActivity {
 
                     alert.show();
                 }else {
-                    HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-                    loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
-                    OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(loggingInterceptor).build();
+                    createUser();
+                }
+            }
 
-                    Retrofit retrofit=new Retrofit.Builder()
-                            //.baseUrl("https://jsonplaceholder.typicode.com/")
-                            .baseUrl("http://192.168.31.148:8081/v1/user/")
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .client(httpClient)
-                            .build();
-                    UserApi userApi= retrofit.create(UserApi.class);
+            private void checkAdmiEmailPassword(String email, String password) {
 
-                    if(male.isChecked()){
-                        genderSelected = male.getText().toString();
-                    }else{
-                        genderSelected = female.getText().toString();
-                    }
+                HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+                loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
+                OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(loggingInterceptor).build();
 
-                    if(basic.isChecked()){
-                        accountTypeSelected = 1;
-                    }else{
-                        accountTypeSelected = 2;
-                    }
+                Gson gson = new GsonBuilder()
+                        .setLenient()
+                        .create();
 
-                    if(client.isChecked()){
-                        userTypeSelected = "Client";
-                    }else{
-                        userTypeSelected = "Admi";
-                    }
+                Retrofit retrofit=new Retrofit.Builder()
+                        //.baseUrl("https://jsonplaceholder.typicode.com/")
+                        .baseUrl("http://192.168.31.148:8081/v1/user/")
+                        .addConverterFactory(GsonConverterFactory.create(gson))
+                        .client(httpClient)
+                        .build();
+                UserApi userApi= retrofit.create(UserApi.class);
 
-                    User user = new User();
-                    user.setAccountTypeId(accountTypeSelected);
-                    user.setName(name.getText().toString());
-                    user.setSurname(surname.getText().toString());
-                    user.setBirthdate(etBirthdate.getText().toString());
-                    user.setUserType(userTypeSelected);
-                    user.setEmail(email.getText().toString());
-                    user.setPassword(password.getText().toString());
-                    user.setGender(genderSelected);
-                    user.setUserPhoto("URL");
+                Call<String> call = userApi.getUserType(email,password);
 
-                    Call<User> call = userApi.createUser(user);
-
-                    //Call<User> call = userApi.createUser(userTypeSelected, accountTypeSelected, name.getText().toString(),surname.getText().toString(), etBirthdate.getText().toString(), genderSelected, email.getText().toString(), password.getText().toString(),"URL");
-
-                    call.enqueue(new Callback<User>() {
-                        @Override
-                        public void onResponse(Call<User> call, Response<User> response) {
-                            if (!response.isSuccessful()) {
-                                Log.d("code","Code: " + response.code());
-                                return;
-                            }
-                            Intent intent = new Intent (SignUpActivity.this, LogInActivity.class);
-                            startActivity(intent);
-                        }
-
-                        @Override
-                        public void onFailure(Call<User> call, Throwable t) {
-                            Log.d("code","Code: " + t.getMessage());
+                call.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if (!response.isSuccessful()) {
+                            Log.d("Code",""+response.code());
+                            Toast.makeText(getApplicationContext(), "Email o Password Incorrectos res "+response.code(), Toast.LENGTH_SHORT).show();
                             return;
                         }
-                    });
-                }
+                        userType = response.body();
+                        if(userType.equals("Admi")){
+                            createUser();
+                        }else{
+                            Toast.makeText(getApplicationContext(), "El usuario no es administrador", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Log.d("Code",""+t.getMessage());
+                        Toast.makeText(getApplicationContext(), "Email o Password Incorrectos onf "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                });
             }
         });
 
@@ -197,6 +184,72 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
     }
+
+    private void createUser() {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(loggingInterceptor).build();
+
+        Retrofit retrofit=new Retrofit.Builder()
+                //.baseUrl("https://jsonplaceholder.typicode.com/")
+                .baseUrl("http://192.168.31.148:8081/v1/user/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient)
+                .build();
+        UserApi userApi= retrofit.create(UserApi.class);
+
+        if(male.isChecked()){
+            genderSelected = male.getText().toString();
+        }else{
+            genderSelected = female.getText().toString();
+        }
+
+        if(basic.isChecked()){
+            accountTypeSelected = 1;
+        }else{
+            accountTypeSelected = 2;
+        }
+
+        if(client.isChecked()){
+            userTypeSelected = "Client";
+        }else{
+            userTypeSelected = "Admi";
+        }
+
+        User user = new User();
+        user.setAccountTypeId(accountTypeSelected);
+        user.setName(name.getText().toString());
+        user.setSurname(surname.getText().toString());
+        user.setBirthdate(etBirthdate.getText().toString());
+        user.setUserType(userTypeSelected);
+        user.setEmail(email.getText().toString());
+        user.setPassword(password.getText().toString());
+        user.setGender(genderSelected);
+        user.setUserPhoto("URL");
+
+        Call<User> call = userApi.createUser(user);
+
+        //Call<User> call = userApi.createUser(userTypeSelected, accountTypeSelected, name.getText().toString(),surname.getText().toString(), etBirthdate.getText().toString(), genderSelected, email.getText().toString(), password.getText().toString(),"URL");
+
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (!response.isSuccessful()) {
+                    Log.d("code","Code: " + response.code());
+                    return;
+                }
+                Intent intent = new Intent (SignUpActivity.this, LogInActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.d("code","Code: " + t.getMessage());
+                return;
+            }
+        });
+    }
+
     private void actualizarInput() {
         String formatoDeFecha = "yyyy-MM-dd"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(formatoDeFecha, Locale.US);
