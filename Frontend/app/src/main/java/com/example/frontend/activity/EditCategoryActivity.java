@@ -36,7 +36,6 @@ public class EditCategoryActivity extends AppCompatActivity {
 
         categoryId = getIntent().getIntExtra("categoryId", 0);
         userId = getIntent().getIntExtra("userId", 0);
-
         name = findViewById(R.id.etName);
 
         btnNext = findViewById(R.id.btnNext);

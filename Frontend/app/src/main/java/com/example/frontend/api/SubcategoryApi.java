@@ -14,6 +14,9 @@ public interface SubcategoryApi {
     @GET("subcategory/")
     Call<Subcategory> getSubcategory(@Query("subcategoryId") int subcategoryId);
 
+    @POST("subcategory")
+    Call<Subcategory> createSubcategory(@Body Subcategory subcategory);
+
     @GET("subcategory/subcategories/")
     Call<ArrayList<Subcategory>> getSubcategoryList(@Query("categoryId") int categoryId);
 

@@ -34,17 +34,17 @@ public class SubcategoryActivity extends AppCompatActivity {
     private SubcategoryAdapter subcategoryAdapter;
     private RecyclerView.LayoutManager subcategoryLayout;
     private ArrayList<Subcategory> subcategory;
-    private int categoryId, subcategoryId;
+    private int subcategoryId;
     Button btnBack;
     Context context;
-    Integer userId;
+    Integer userId, categoryId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subcategory);
         userId = getIntent().getIntExtra("userId", 0);
-        categoryId = getIntent().getIntExtra("categoryId", 1);
+        categoryId = getIntent().getIntExtra("categoryId", 0);
 
         subcategoryView = findViewById(R.id.subcategoryRecView);
 
@@ -114,6 +114,7 @@ public class SubcategoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (SubcategoryActivity.this, AddSubcategoryActivity.class);
+                intent.putExtra("categoryId",categoryId);
                 intent.putExtra("userId",userId);
                 startActivity(intent);
             }
