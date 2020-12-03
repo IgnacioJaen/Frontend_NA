@@ -26,6 +26,7 @@
                 android:id="@+id/etName"
                 android:layout_height="wrap_content"
                 android:hint="Nombre"
+                android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ "
                 android:inputType="textPersonName"
                 android:textSize="23dp"
                 android:layout_width="fill_parent">
@@ -35,6 +36,7 @@
                 android:id="@+id/etSurname"
                 android:layout_height="wrap_content"
                 android:hint="Apellido"
+                android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ "
                 android:textSize="23dp"
                 android:layout_width="fill_parent">
         </EditText>
