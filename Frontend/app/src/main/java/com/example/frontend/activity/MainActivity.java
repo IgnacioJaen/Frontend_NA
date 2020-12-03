@@ -66,6 +66,11 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
 
+                    if(item.getItemId() == R.id.logout_button){
+                        Intent intent = new Intent(MainActivity.this, LogInActivity.class);
+                        startActivity(intent);
+                    }
+
                      return true;
                 }
             };

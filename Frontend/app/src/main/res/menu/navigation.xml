@@ -13,4 +13,9 @@
             android:id="@+id/user_button"
             android:icon="@drawable/usersilueta"
             android:title="Perfil"></item>
+
+    <item
+            android:id="@+id/logout_button"
+            android:icon="@drawable/ic_baseline_launch_24"
+            android:title="Salir"></item>
 </menu>
