@@ -15,9 +15,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.frontend.R;
 import com.example.frontend.adapter.ChatAdapter;
 import com.example.frontend.api.ChatApi;
+import com.example.frontend.api.ReportApi;
 import com.example.frontend.api.ReportOpApi;
+import com.example.frontend.api.UserApi;
 import com.example.frontend.model.ChatRequest;
+import com.example.frontend.model.Report;
 import com.example.frontend.model.ReportOpRequest;
+import com.example.frontend.model.User;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.jetbrains.annotations.NotNull;
@@ -27,11 +31,14 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MessagesActivity extends AppCompatActivity {
 
-    int userId, chatId, reportOpId;
+    int userId, chatId, reportOpId, receiverUserId;
     public ArrayList<ReportOpRequest> reportOptions;
     public ArrayList<String> reportItems;
 
@@ -74,7 +81,7 @@ public class MessagesActivity extends AppCompatActivity {
         }*/
         //String [] items = reportItems.toArray(new String[0]);
         String[] items = {"Mal Vocabulario","No Busca Amistad","Hostigador"};
-        int checkedItem = 1;
+        int checkedItem = 0;
         alertDialog.setSingleChoiceItems(items, checkedItem, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -96,11 +103,7 @@ public class MessagesActivity extends AppCompatActivity {
         });
         alertDialog.setPositiveButton("Reportar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                //generateReport(userId, chatId, )
-                deleteChat(chatId);
-                Intent intent = new Intent (MessagesActivity.this, ChatActivity.class);
-                intent.putExtra("userId", userId);
-                startActivity(intent);
+                generateReport();
                 //Toast.makeText(MessagesActivity.this, "Positive Button", Toast.LENGTH_LONG).show();
             }
         });
@@ -114,6 +117,91 @@ public class MessagesActivity extends AppCompatActivity {
         AlertDialog alert = alertDialog.create();
         alert.setCanceledOnTouchOutside(false);
         alert.show();
+    }
+
+    private void generateReport() {
+        getReceiverUserId(userId, chatId);
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(loggingInterceptor).build();
+
+        Retrofit retrofit=new Retrofit.Builder()
+                //.baseUrl("https://jsonplaceholder.typicode.com/")
+                .baseUrl("http://192.168.31.148:8081/v1/report/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient)
+                .build();
+
+        ReportApi reportApi= retrofit.create(ReportApi.class);
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String date = df.format(Calendar.getInstance().getTime());
+        //String date = "2020-10-29 22:12:10";
+
+        Report report = new Report();
+
+        //report.setReportId(report.getReportId());
+        report.setChatId(chatId);
+        report.setReportOpId(reportOpId);
+        report.setDate(date);
+        report.setReportedUserId(receiverUserId);
+        report.setUserId(userId);
+
+        Call<Report> call = reportApi.generateReport(report);
+
+        call.enqueue(new Callback<Report>() {
+            @Override
+            public void onResponse(Call<Report> call, Response<Report> response) {
+                if (!response.isSuccessful()) {
+                    //Log.d("code on response ","Code: " + response.code());
+                    Toast.makeText(MessagesActivity.this, "OnResponse: "+response.toString()+" receiverId: "+receiverUserId, Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                deleteChat(chatId);
+                Intent intent = new Intent (MessagesActivity.this, ChatActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<Report> call, Throwable t) {
+                Toast.makeText(MessagesActivity.this, "OnFailure: "+t.getMessage()+" receiverId: "+receiverUserId, Toast.LENGTH_LONG).show();
+                return;
+            }
+        });
+    }
+
+    private void getReceiverUserId(Integer userId, Integer chatId) {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(loggingInterceptor).build();
+
+        Retrofit retrofit=new Retrofit.Builder()
+                //.baseUrl("https://jsonplaceholder.typicode.com/")
+                //.baseUrl("http://192.168.0.15:8080/v1/user/")
+                .baseUrl("http://192.168.31.148:8081/v1/user/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient)
+                .build();
+        UserApi userApi= retrofit.create(UserApi.class);
+
+        Call<Integer> call = userApi.getReceiverId(userId, chatId);
+
+        call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if (!response.isSuccessful()) {
+                    return;
+                }
+                receiverUserId = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                return;
+            }
+        });
     }
 
     private void deleteChat(int chatId) {

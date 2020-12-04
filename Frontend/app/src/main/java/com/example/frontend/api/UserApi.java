@@ -15,6 +15,9 @@ public interface UserApi {
     @GET("userRequest/login")
     Call<Integer> getId(@Query("email") String email, @Query("password") String password);
 
+    @GET("receiverid")
+    Call<Integer> getReceiverId(@Query("userId") Integer userId, @Query("chatId") Integer chatId);
+
     @POST("post")
     Call<User> createUser(@Body User user);
 
