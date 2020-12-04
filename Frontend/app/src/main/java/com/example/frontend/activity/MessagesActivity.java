@@ -49,6 +49,8 @@ public class MessagesActivity extends AppCompatActivity {
 
         userId = getIntent().getIntExtra("userId", 0);
         chatId = getIntent().getIntExtra("chatId", 0);
+
+        getReceiverUserId(userId, chatId);
     }
 
     @Override
@@ -74,7 +76,7 @@ public class MessagesActivity extends AppCompatActivity {
     public void showAlertDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(MessagesActivity.this);
         alertDialog.setTitle("Reportar Usuario");
-        getReportOptions();
+        //getReportOptions();
         /*String items[] = new String[reportOptions.size()];
         for(int i=0; i<items.length; i++){
             items[i] = "java";
@@ -120,7 +122,7 @@ public class MessagesActivity extends AppCompatActivity {
     }
 
     private void generateReport() {
-        getReceiverUserId(userId, chatId);
+
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(loggingInterceptor).build();
@@ -157,11 +159,7 @@ public class MessagesActivity extends AppCompatActivity {
                     Toast.makeText(MessagesActivity.this, "OnResponse: "+response.toString()+" receiverId: "+receiverUserId, Toast.LENGTH_LONG).show();
                     return;
                 }
-
                 deleteChat(chatId);
-                Intent intent = new Intent (MessagesActivity.this, ChatActivity.class);
-                intent.putExtra("userId", userId);
-                startActivity(intent);
             }
 
             @Override
@@ -235,8 +233,13 @@ public class MessagesActivity extends AppCompatActivity {
             }
 
         });
+
+        Intent intent = new Intent (MessagesActivity.this, ChatActivity.class);
+        intent.putExtra("userId", userId);
+        startActivity(intent);
     }
 
+    /*
     private void getReportOptions() {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
@@ -274,5 +277,5 @@ public class MessagesActivity extends AppCompatActivity {
 
         });
 
-    }
+    }*/
 }
