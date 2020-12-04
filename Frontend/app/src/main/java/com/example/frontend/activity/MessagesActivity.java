@@ -4,24 +4,22 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ListAdapter;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.example.frontend.R;
 import com.example.frontend.adapter.ChatAdapter;
-import com.example.frontend.api.ChatApi;
-import com.example.frontend.api.ReportApi;
-import com.example.frontend.api.ReportOpApi;
-import com.example.frontend.api.UserApi;
-import com.example.frontend.model.ChatRequest;
-import com.example.frontend.model.Report;
-import com.example.frontend.model.ReportOpRequest;
-import com.example.frontend.model.User;
+import com.example.frontend.adapter.MessagesAdapter;
+import com.example.frontend.api.*;
+import com.example.frontend.model.*;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.jetbrains.annotations.NotNull;
@@ -38,19 +36,209 @@ import java.util.Calendar;
 
 public class MessagesActivity extends AppCompatActivity {
 
+    private RecyclerView messageView;
+    private MessagesAdapter messagesAdapter;
+    private RecyclerView.LayoutManager messagesLayout;
+    private ArrayList<MessagesRequest> messages;
+    public LinearLayout llCardMessage;
     int userId, chatId, reportOpId, receiverUserId;
     public ArrayList<ReportOpRequest> reportOptions;
     public ArrayList<String> reportItems;
+    private Button sendButton, updateButton;
+    private EditText etMessage;
+    private TextView tvUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messages);
 
+        llCardMessage = findViewById(R.id.linLayMessageCard);
+        sendButton = findViewById(R.id.sendMessageButton);
+        updateButton = findViewById(R.id.updateMessges);
+        etMessage = findViewById(R.id.etMessage);
+        tvUserName = findViewById(R.id.textViewUserName);
+
         userId = getIntent().getIntExtra("userId", 0);
         chatId = getIntent().getIntExtra("chatId", 0);
 
+        messageView = findViewById(R.id.rvMessages);
+        messageView.setHasFixedSize(true);
+        messagesLayout = new LinearLayoutManager(this);
+        messageView.setLayoutManager(messagesLayout);
+
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mensajes();
+            }
+        });
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendMessage();
+            }
+        });
+
         getReceiverUserId(userId, chatId);
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                userName();
+               //mensajes();
+            }
+        }, 2000);
+
+    }
+
+    private void userName() {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(loggingInterceptor).build();
+
+        Retrofit retrofit=new Retrofit.Builder()
+                //.baseUrl("https://jsonplaceholder.typicode.com/")
+                //.baseUrl("http://192.168.0.15:8080/v1/user/")
+                .baseUrl("http://192.168.31.148:8081/v1/user/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient)
+                .build();
+        UserApi userApi= retrofit.create(UserApi.class);
+
+        Call<User> call = userApi.getUser(receiverUserId);
+
+        call.enqueue(new Callback<User>() {
+
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (!response.isSuccessful()) {
+                    //textViewResult.setText("Code: " + response.code());
+                    Log.d("Code","Code: "+response.code());
+                    return;
+                }
+
+                User user=new User();
+
+                user = response.body();
+                tvUserName.setText(user.getName());
+
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //userName();
+                        mensajes();
+                    }
+                }, 2000);
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                //textViewResult.setText(t.getMessage());
+                Log.d("Code","Code: "+t.getMessage());
+            }
+
+        });
+    }
+
+    private void sendMessage() {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(loggingInterceptor).build();
+
+        Retrofit retrofit=new Retrofit.Builder()
+                //.baseUrl("https://jsonplaceholder.typicode.com/")
+                .baseUrl("http://192.168.31.148:8081/v1/messages/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient)
+                .build();
+
+        MessagesApi messageApi= retrofit.create(MessagesApi.class);
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String date = df.format(Calendar.getInstance().getTime());
+
+        Messages messages=new Messages();
+        messages.setChatId(chatId);
+        messages.setDate(date);
+        messages.setContent(etMessage.getText().toString());
+        messages.setReceiverUserId(receiverUserId);
+        messages.setTransmitterUserId(userId);
+
+        Call<Messages> call = messageApi.sendMessage(messages);
+
+        //Call<User> call = userApi.createUser(userTypeSelected, accountTypeSelected, name.getText().toString(),surname.getText().toString(), etBirthdate.getText().toString(), genderSelected, email.getText().toString(), password.getText().toString(),"URL");
+
+        call.enqueue(new Callback<Messages>() {
+            @Override
+            public void onResponse(Call<Messages> call, Response<Messages> response) {
+                if (!response.isSuccessful()) {
+                    Log.d("code","Code: " + response.code());
+                    return;
+                }
+                etMessage.setText("");
+            }
+
+            @Override
+            public void onFailure(Call<Messages> call, Throwable t) {
+                Log.d("code","Code: " + t.getMessage());
+                return;
+            }
+        });
+    }
+
+    private void mensajes() {
+
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+            loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
+            OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(loggingInterceptor).build();
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    //.baseUrl("https://jsonplaceholder.typicode.com/")
+                    .baseUrl("http://192.168.31.148:8081/v1/messages/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(httpClient)
+                    .build();
+            MessagesApi messagesApi = retrofit.create(MessagesApi.class);
+
+            Call<ArrayList<MessagesRequest>> call = messagesApi.getMessages(userId, chatId, 4);
+
+            call.enqueue(new Callback<ArrayList<MessagesRequest>>() {
+
+                @Override
+                public void onResponse(Call<ArrayList<MessagesRequest>> call, Response<ArrayList<MessagesRequest>> response) {
+                    if (!response.isSuccessful()) {
+                        //textViewResult.setText("Code: " + response.code());
+                        MessagesRequest cr = new MessagesRequest();
+                        messages.add(cr);
+                        messagesAdapter = new MessagesAdapter(messages);
+                        messageView.setAdapter(messagesAdapter);
+                        return;
+                    }
+
+                    messages = response.body();
+                    messagesAdapter = new MessagesAdapter(messages);
+                    messageView.setAdapter(messagesAdapter);
+
+                    messagesAdapter.setOnItemClickListener(new MessagesAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            //
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure(Call<ArrayList<MessagesRequest>> call, Throwable t) {
+                    //textViewResult.setText(t.getMessage());
+                    ChatRequest cr = new ChatRequest();
+                    cr.setUser2UserName("Code: " + t.getMessage());
+                }
+
+            });
     }
 
     @Override
