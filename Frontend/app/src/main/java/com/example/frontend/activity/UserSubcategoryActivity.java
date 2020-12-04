@@ -2,6 +2,7 @@ package com.example.frontend.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,8 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.frontend.R;
 import com.example.frontend.adapter.SubcategoryAdapter;
 import com.example.frontend.adapter.UserSubcategoryAdapter;
+import com.example.frontend.api.CategoryApi;
 import com.example.frontend.api.SubcategoryApi;
+import com.example.frontend.api.UserSubcategoryApi;
+import com.example.frontend.model.Category;
 import com.example.frontend.model.Subcategory;
+import com.example.frontend.model.UserSubcategory;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -31,17 +36,19 @@ public class UserSubcategoryActivity extends AppCompatActivity {
     private UserSubcategoryAdapter subcategoryAdapter;
     private RecyclerView.LayoutManager subcategoryLayout;
     private ArrayList<Subcategory> subcategory;
-    private int subcategoryId;
+    public int subcategoryId;
     Button btnBack;
     Context context;
     Integer userId, categoryId;
+    public ArrayList<Integer> cbList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_subcategory);
-        userId = getIntent().getIntExtra("userId", 0);
+
         categoryId = getIntent().getIntExtra("categoryId", 0);
+        userId = getIntent().getIntExtra("userId", 0);
 
         subcategoryView = findViewById(R.id.subcategoryRecView);
 
@@ -75,6 +82,7 @@ public class UserSubcategoryActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 subcategory = response.body();
                 subcategoryAdapter = new UserSubcategoryAdapter(subcategory);
                 subcategoryView.setAdapter(subcategoryAdapter);
@@ -83,12 +91,77 @@ public class UserSubcategoryActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(int position) {
                         subcategoryId=subcategory.get(position).getSubcategoryId();
+                        if(cbList.size()==0){
+                            cbList.add(subcategoryId);
+                        }
+                        else{
+                            boolean n1=comprobarExiste();
+                            Toast.makeText(getApplicationContext(), "Bool: "+n1, Toast.LENGTH_SHORT).show();
+                            if(n1==true) {
+                                for (int i=0; i<cbList.size() ; i++)
+                                {
+                                    if(cbList.get(i)==subcategoryId)
+                                    {
+                                        cbList.remove(i);
+                                    }
+                                }
+                                //subcategory.get(position)
+                                //lySubcategory.setBackgroundColor(Color.parseColor("#E36E6E"));
+                            }
+                            else
+                            {
+                                cbList.add(subcategoryId);
+                            }
+                        }
+
+                        String n="";
+                        for (int i=0; i<cbList.size() ; i++)
+                        {
+                            n+=", "+cbList.get(i);
+                        }
+                        Toast.makeText(getApplicationContext(), "LISTA: "+n, Toast.LENGTH_LONG).show();
+
+
+                        /*
+                        UserSubcategoryApi userSubcategoryApi= retrofit.create(UserSubcategoryApi.class);
+
+                        UserSubcategory userSubcategory = new UserSubcategory();
+                        userSubcategory.setSubcategoryId(subcategoryId);
+                        userSubcategory.setUserId(userId);
+                        userSubcategory.setStatus(1);
+
+                        Call<UserSubcategory> call = userSubcategoryApi.insertUserSubcategory(userSubcategory);
+
+                        call.enqueue(new Callback<UserSubcategory>() {
+                            @Override
+                            public void onResponse(Call<UserSubcategory> call, Response<UserSubcategory> response) {
+                                if (!response.isSuccessful()) {
+                                    Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                Toast.makeText(getApplicationContext(), "Subcategoria agregada a tus favoritos", Toast.LENGTH_SHORT).show();
+                                //
+                                Intent intent = new Intent (UserSubcategoryActivity.this, UserCategoryActivity.class);
+                                intent.putExtra("userId",userId);
+                                startActivity(intent);
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<UserSubcategory> call, Throwable t) {
+                                Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
+                            }
+                        });*/
+
 
                     }
                 });
+
             }
 
-            @Override
+
+
+    @Override
             public void onFailure(Call<ArrayList<Subcategory>> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
             }
@@ -118,6 +191,18 @@ public class UserSubcategoryActivity extends AppCompatActivity {
 
 
 
+    }
 
+    private boolean comprobarExiste() {
+        int size= cbList.size();
+        boolean flag=false;
+        for (int i=0; i<size ; i++)
+        {
+            if(cbList.get(i)==subcategoryId)
+            {
+                flag=true;
+            }
+        }
+        return flag;
     }
 }

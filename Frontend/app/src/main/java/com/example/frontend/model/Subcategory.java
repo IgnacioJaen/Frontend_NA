@@ -7,8 +7,15 @@ public class Subcategory {
     private Integer categoryId;
     private String name;
     private Integer status;
+    private Integer color;
 
+    public Integer getColor() {
+        return color;
+    }
 
+    public void setColor(Integer color) {
+        this.color = color;
+    }
 
     // Setters Y Getters generados para los demas atributos de la clase Subcategory
     public Integer getSubcategoryId() {

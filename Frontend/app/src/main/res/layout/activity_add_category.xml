@@ -60,6 +60,7 @@
                 android:inputType="textPersonName"
                 android:hint="Ingresar el nombre de la categoria"
                 android:ems="10"
+                android:maxLength="20"
                 android:textColorLink="#000000"
                 android:id="@+id/etName" android:layout_gravity="center" android:textColor="#A5A0A0"
                 android:layout_marginLeft="50dp" android:layout_marginRight="50dp" android:layout_marginTop="5dp"/>

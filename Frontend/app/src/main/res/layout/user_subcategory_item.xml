@@ -5,26 +5,31 @@
                                    android:layout_height="wrap_content"
                                    android:id="@+id/cardView"
                                    android:layout_margin="5dp"
-                                   card_view:cardBackgroundColor="#96C9F1"
                                    card_view:cardCornerRadius="5dp"
                                    card_view:cardElevation="5dp"
                                    card_view:contentPadding="5dp"
+                                   android:background="@null"
                                    android:clickable="true">
 
     <LinearLayout
+
             android:id="@+id/lySubcategory"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/selecter"
+            android:background="@drawable/tv_border"
             android:padding="5dp">
+        <CheckBox
+                android:layout_width="80dp"
+                android:layout_height="50dp" android:id="@+id/cb" android:layout_weight="1"
+                android:gravity="top" android:layout_marginLeft="8dp"/>
         <TextView
                 android:id="@+id/tvName"
-                android:layout_width="wrap_content"
+                android:layout_width="205dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Subcategoria"
-                android:gravity="bottom"
+                android:layout_marginTop="8dp"
                 android:textSize="25sp"
                 android:textColor="#000"
                 android:layout_marginLeft="10dp"
@@ -35,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="(pulsa para seleccionar)"
-                android:gravity="bottom"
+                android:gravity="right"
                 android:textSize="16sp"
                 android:textColor="#4E4E4E"
                 android:layout_marginLeft="10dp"
