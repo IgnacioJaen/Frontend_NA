@@ -143,6 +143,8 @@ public class SignUpActivity extends AppCompatActivity {
                                     dialog.dismiss();
                                 }
                             });
+                        }else{
+                            createUser();
                         }
                     }else{
                         Toast.makeText(getApplicationContext(), "Email inválido", Toast.LENGTH_SHORT).show();
@@ -275,6 +277,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (!response.isSuccessful()) {
                     Log.d("code","Code: " + response.code());
+                    Toast.makeText(SignUpActivity.this,"Respponse: "+response.code(),Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Intent intent = new Intent (SignUpActivity.this, LogInActivity.class);
@@ -284,6 +287,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 Log.d("code","Code: " + t.getMessage());
+                Toast.makeText(SignUpActivity.this,"Failure: "+t.getMessage(),Toast.LENGTH_SHORT).show();
                 return;
             }
         });
