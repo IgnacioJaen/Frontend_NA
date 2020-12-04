@@ -180,6 +180,14 @@ public class MessagesActivity extends AppCompatActivity {
                     return;
                 }
                 etMessage.setText("");
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //userName();
+                        mensajes();
+                    }
+                }, 800);
             }
 
             @Override
@@ -204,7 +212,7 @@ public class MessagesActivity extends AppCompatActivity {
                     .build();
             MessagesApi messagesApi = retrofit.create(MessagesApi.class);
 
-            Call<ArrayList<MessagesRequest>> call = messagesApi.getMessages(userId, chatId, 4);
+            Call<ArrayList<MessagesRequest>> call = messagesApi.getMessages(userId, chatId, receiverUserId);
 
             call.enqueue(new Callback<ArrayList<MessagesRequest>>() {
 
