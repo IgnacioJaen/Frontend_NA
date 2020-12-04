@@ -260,7 +260,11 @@ public class MessagesActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull @NotNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.itemProfile:
-                Toast.makeText(this, "Perfil del usuario", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent (MessagesActivity.this, ProfileActivity.class);
+                intent.putExtra("userId", userId);
+                intent.putExtra("receiver",receiverUserId);
+                intent.putExtra("chatId",chatId);
+                startActivity(intent);
                 return true;
             case R.id.itemReport:
                 showAlertDialog();

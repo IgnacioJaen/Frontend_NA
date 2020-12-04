@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/ScrollView01"
+                android:background="@drawable/noappfondoacuarela"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".activity.ReportInfoActivity"
+                android:scrollbars="vertical">
+    <Button
+            android:layout_marginLeft="10dp"
+            android:layout_width="40dp"
+            android:background="@null"
+            android:layout_height="40dp"
+            android:id="@+id/btnBackProfile"
+            android:layout_marginTop="20dp"
+            android:foreground="@drawable/ic_back"/>
+    <androidx.core.widget.NestedScrollView
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/btnBack"
+            android:layout_marginTop="1dp">
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:orientation="vertical"
+                android:background="@drawable/noappfondodos"
+                android:layout_height="fill_parent">
+
+            <TextView
+                    android:id="@+id/userNameProfile"
+                    android:gravity="center"
+                    android:textColor="#E91E63"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="User Name"
+                    android:textSize="45dp">
+            </TextView>
+
+            <TextView
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:textSize="45dp">
+            </TextView>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="#3F51B5"
+                    android:text="Fecha de Nacimiento:"
+                    android:textSize="36dp">
+            </TextView>
+
+            <TextView
+                    android:id="@+id/birthdateProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Birthdate"
+                    android:textSize="30dp">
+            </TextView>
+
+            <TextView
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:textSize="45dp">
+            </TextView>
+
+            <TextView
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:textSize="45dp">
+            </TextView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/subProfileRecView"
+                    android:padding="4dp"
+                    android:scrollbars="vertical"
+                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+            >
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>
