@@ -41,6 +41,7 @@ public class UserCategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_category);
         btnBack = findViewById(R.id.btnBack);
         userId = getIntent().getIntExtra("userId", 0);
+        categoryId = getIntent().getIntExtra("categoryId", 0);
 
         FloatingActionButton fab = findViewById(R.id.fabAdd);
         fab.setOnClickListener(new View.OnClickListener() {

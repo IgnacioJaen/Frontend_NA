@@ -54,6 +54,11 @@ public class AddCategoryActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Debes ingresar el nombre de la categoria", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                else if (name.getText().toString().equals("-"))
+                {
+                    Toast.makeText(getApplicationContext(), "Debes ingresar el nombre de la categoria", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 else {
                     HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
                     loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
@@ -61,8 +66,8 @@ public class AddCategoryActivity extends AppCompatActivity {
 
                     Retrofit retrofit=new Retrofit.Builder()
                             //.baseUrl("https://jsonplaceholder.typicode.com/")
-                            //.baseUrl("http://192.168.0.15:8080/v1/")
-                            .baseUrl("http://192.168.31.148:8081/v1/")
+                            .baseUrl("http://192.168.0.15:8080/v1/")
+                            //.baseUrl("http://192.168.31.148:8081/v1/")
                             .addConverterFactory(GsonConverterFactory.create())
                             .client(httpClient)
                             .build();

@@ -140,6 +140,11 @@ public class EditCategoryActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Debes ingresar el nombre de la categoria", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                else if (name.getText().toString().equals("-"))
+                {
+                    Toast.makeText(getApplicationContext(), "Debes ingresar el nombre de la categoria", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 else {
                     Category category = new Category();
                     category.setCategoryId(categoryId);

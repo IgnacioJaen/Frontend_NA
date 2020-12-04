@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -30,18 +31,29 @@ public class UserSubcategoryAdapter extends RecyclerView.Adapter<UserSubcategory
         public TextView tvName;
         public TextView tvSubitulo;
         public LinearLayout lySubcategory;
+        public CheckBox cb;
+        Integer n=1;
+
 
         public SubcategoryViewHolder(@NonNull @NotNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
             tvSubitulo = itemView.findViewById(R.id.tvSubtitulo);
             lySubcategory = itemView.findViewById(R.id.lySubcategory);
-
+            cb = itemView.findViewById(R.id.cb);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    lySubcategory.setBackgroundColor(Color.parseColor("#E36E6E"));
+                    if(n==1){
+                        lySubcategory.setBackgroundColor(Color.parseColor("#E36E6E"));
+                        n=0;
+                    }
+                    else
+                    {
+                        n=1;
+                        lySubcategory.setBackgroundColor(Color.parseColor("#96C9F1"));
+                    }
                     if(listener!=null){
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION){
