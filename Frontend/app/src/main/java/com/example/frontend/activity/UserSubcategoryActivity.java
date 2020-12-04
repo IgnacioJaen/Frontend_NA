@@ -105,54 +105,12 @@ public class UserSubcategoryActivity extends AppCompatActivity {
                                         cbList.remove(i);
                                     }
                                 }
-                                //subcategory.get(position)
-                                //lySubcategory.setBackgroundColor(Color.parseColor("#E36E6E"));
                             }
                             else
                             {
                                 cbList.add(subcategoryId);
                             }
                         }
-
-                        String n="";
-                        for (int i=0; i<cbList.size() ; i++)
-                        {
-                            n+=", "+cbList.get(i);
-                        }
-                        Toast.makeText(getApplicationContext(), "LISTA: "+n, Toast.LENGTH_LONG).show();
-
-
-                        /*
-                        UserSubcategoryApi userSubcategoryApi= retrofit.create(UserSubcategoryApi.class);
-
-                        UserSubcategory userSubcategory = new UserSubcategory();
-                        userSubcategory.setSubcategoryId(subcategoryId);
-                        userSubcategory.setUserId(userId);
-                        userSubcategory.setStatus(1);
-
-                        Call<UserSubcategory> call = userSubcategoryApi.insertUserSubcategory(userSubcategory);
-
-                        call.enqueue(new Callback<UserSubcategory>() {
-                            @Override
-                            public void onResponse(Call<UserSubcategory> call, Response<UserSubcategory> response) {
-                                if (!response.isSuccessful()) {
-                                    Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-                                Toast.makeText(getApplicationContext(), "Subcategoria agregada a tus favoritos", Toast.LENGTH_SHORT).show();
-                                //
-                                Intent intent = new Intent (UserSubcategoryActivity.this, UserCategoryActivity.class);
-                                intent.putExtra("userId",userId);
-                                startActivity(intent);
-
-                            }
-
-                            @Override
-                            public void onFailure(Call<UserSubcategory> call, Throwable t) {
-                                Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
-                            }
-                        });*/
-
 
                     }
                 });
@@ -180,9 +138,32 @@ public class UserSubcategoryActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Subcategorias agregadas correctamente", Toast.LENGTH_SHORT).show();
+                for (int i=0; i<cbList.size() ; i++)
+                {
+                    UserSubcategoryApi userSubcategoryApi= retrofit.create(UserSubcategoryApi.class);
+                    UserSubcategory userSubcategory = new UserSubcategory();
+                    userSubcategory.setSubcategoryId(cbList.get(i));
+                    userSubcategory.setUserId(userId);
+                    userSubcategory.setStatus(1);
+
+                    Call<UserSubcategory> call = userSubcategoryApi.insertUserSubcategory(userSubcategory);
+
+                    call.enqueue(new Callback<UserSubcategory>() {
+                        @Override
+                        public void onResponse(Call<UserSubcategory> call, Response<UserSubcategory> response) {
+                            if (!response.isSuccessful()) {
+                                Toast.makeText(getApplicationContext(), "ERROR is not succesful", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            Toast.makeText(getApplicationContext(), "Subcategoria(s) agregada a tus favoritos", Toast.LENGTH_SHORT).show();
+                        }
+                        @Override
+                        public void onFailure(Call<UserSubcategory> call, Throwable t) {
+                            Toast.makeText(getApplicationContext(), "ERROR onFailure", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
                 Intent intent = new Intent (UserSubcategoryActivity.this, UserCategoryActivity.class);
-                intent.putExtra("categoryId",categoryId);
                 intent.putExtra("userId",userId);
                 startActivity(intent);
             }
