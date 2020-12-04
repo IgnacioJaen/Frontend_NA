@@ -18,4 +18,9 @@
             android:id="@+id/logout_button"
             android:icon="@drawable/ic_baseline_launch_24"
             android:title="Salir"></item>
+
+    <item
+            android:id="@+id/warning_button"
+            android:icon="@drawable/ic_baseline_warning_24"
+            android:title="Salir"></item>
 </menu>

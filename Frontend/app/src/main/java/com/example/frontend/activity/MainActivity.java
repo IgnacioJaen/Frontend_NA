@@ -71,6 +71,12 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
 
+                    if(item.getItemId() == R.id.warning_button){
+                        Intent intent = new Intent(MainActivity.this, ReportActivity.class);
+                        intent.putExtra("userId",userId);
+                        startActivity(intent);
+                    }
+
                      return true;
                 }
             };
