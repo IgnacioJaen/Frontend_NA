@@ -1,6 +1,7 @@
 package com.example.frontend.api;
 
 import com.example.frontend.model.Category;
+import com.example.frontend.model.CategoryRequest;
 import com.example.frontend.model.User;
 import com.example.frontend.model.UserRequest;
 import retrofit2.Call;
@@ -11,6 +12,9 @@ import java.util.ArrayList;
 public interface UserApi {
 
     //@Headers({"Accept: application/json"})
+
+    @GET("allUsers")
+    Call<ArrayList<UserRequest>> getAllUsers();
 
     @GET("userRequest/login")
     Call<Integer> getId(@Query("email") String email, @Query("password") String password);

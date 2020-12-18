@@ -14,8 +14,12 @@ import android.widget.*;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.frontend.R;
+import com.example.frontend.adapter.CategoryAdapter;
+import com.example.frontend.api.CategoryApi;
 import com.example.frontend.api.UserApi;
+import com.example.frontend.model.CategoryRequest;
 import com.example.frontend.model.User;
+import com.example.frontend.model.UserRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import okhttp3.OkHttpClient;
@@ -27,6 +31,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.regex.Pattern;
@@ -42,6 +47,8 @@ public class SignUpActivity extends AppCompatActivity {
     Calendar calendar = Calendar.getInstance();
     Button registerButton;
     String userType;
+    ArrayList<UserRequest> users;
+    Integer flag=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +69,63 @@ public class SignUpActivity extends AppCompatActivity {
         admi = findViewById(R.id.radioAdmi);
         passwordConfir = findViewById(R.id.etPasswordConfirmation);
 
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(loggingInterceptor).build();
+
+        Retrofit retrofit=new Retrofit.Builder()
+                .baseUrl("http://192.168.0.10:8080/v1/user/")
+                //.baseUrl("http://192.168.1.10:8081/v1/user/")
+                //.baseUrl("http://localhost:8081/v1/user/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient)
+                .build();
+
+
+        UserApi userApi = retrofit.create(UserApi.class);
+        Call<ArrayList<UserRequest>> call = userApi.getAllUsers();
+
+        call.enqueue(new Callback<ArrayList<UserRequest>>() {
+            @Override
+            public void onResponse(Call<ArrayList<UserRequest>> call, Response<ArrayList<UserRequest>> response) {
+                if (!response.isSuccessful()) {
+                    //textViewResult.setText("Code: " + response.code());
+                    Toast.makeText(getApplicationContext(), "onResponse is not successful", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                users = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<UserRequest>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Error onFailure", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                for (int i=0; i<users.size() ; i++)
+                {
+                    if((email.getText().toString()).equals(users.get(i).getEmail()))
+                    {
+                        flag=1;
+                    }
+                    if (flag==1){
+                        break;
+                    }
+                }
+
+
                 if(!(password.getText().toString()).equals(passwordConfir.getText().toString())){
                     Toast.makeText(getApplicationContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if(flag==1){
+                    Toast.makeText(getApplicationContext(), "El correo: "+email.getText().toString()+" ya pertenece a una cuenta", Toast.LENGTH_SHORT).show();
                     return;
                 }else if (etBirthdate.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Debes ingresar tu fecha de nacimiento", Toast.LENGTH_SHORT).show();
@@ -94,6 +153,7 @@ public class SignUpActivity extends AppCompatActivity {
                     return;
                 } else if (admi.isChecked()){
                     AlertDialog.Builder alert = new AlertDialog.Builder(SignUpActivity.this);
+
 
                     alert.setTitle("Administrador");
                     alert.setMessage("Para registrar un usuario de tipo administrador, debe ingresar la contraseña" +
@@ -165,7 +225,8 @@ public class SignUpActivity extends AppCompatActivity {
 
                 Retrofit retrofit=new Retrofit.Builder()
                         //.baseUrl("https://jsonplaceholder.typicode.com/")
-                        .baseUrl("http://192.168.1.10:8081/v1/user/")
+                        //.baseUrl("http://192.168.31.148:8081/v1/user/")
+                        .baseUrl("http://192.168.0.15:8080/v1/user/")
                         .addConverterFactory(GsonConverterFactory.create(gson))
                         .client(httpClient)
                         .build();
@@ -233,7 +294,8 @@ public class SignUpActivity extends AppCompatActivity {
 
         Retrofit retrofit=new Retrofit.Builder()
                 //.baseUrl("https://jsonplaceholder.typicode.com/")
-                .baseUrl("http://192.168.1.10:8081/v1/user/")
+                .baseUrl("http://192.168.0.10:8080/v1/user/")
+                //.baseUrl("http://192.168.31.148:8081/v1/user/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient)
                 .build();
