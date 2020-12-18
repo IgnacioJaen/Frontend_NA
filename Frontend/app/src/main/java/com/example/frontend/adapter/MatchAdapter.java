@@ -3,6 +3,7 @@ package com.example.frontend.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,7 +16,6 @@ import java.util.ArrayList;
 public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.MatchViewHolder> {
     private ArrayList<UserSubcategory> mSubcategoryList;
     private MatchAdapter.OnItemClickListener subcategoryListener;
-
 
     public interface OnItemClickListener{
         void onItemClick(int position);

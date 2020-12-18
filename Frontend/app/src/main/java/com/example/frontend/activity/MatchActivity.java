@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -48,6 +49,7 @@ public class MatchActivity extends Fragment {
     private String userType;
     private Integer userAcceptedId;
     private Integer lastChatId;
+    private Integer clicks=0;
     @Nullable
     @org.jetbrains.annotations.Nullable
     @Override
@@ -73,11 +75,21 @@ public class MatchActivity extends Fragment {
                 subcategoryAdapter.setOnItemClickListener(new MatchAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                //userName();
+                                //Toast.makeText(getActivity(),"ChatId: "+chat.getChatId(),Toast.LENGTH_SHORT).show();
+                                createMessage();
+                            }
+                        }, 100);
                         userAcceptedId=subcategory.get(position).getUserId();
                         //Toast.makeText(getContext(),"userAccId"+userAcceptedId, Toast.LENGTH_SHORT).show();
                         createChat();
                     }
                 });
+
             }
         }, 3000);
 

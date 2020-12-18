@@ -33,16 +33,6 @@
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                 ></TextView>
-                <ImageButton android:layout_width="wrap_content"
-                             android:layout_height="match_parent"
-                             android:id="@+id/acceptButton"
-                             android:src="@drawable/check"
-                        ></ImageButton>
-                <ImageButton android:layout_width="60dp"
-                             android:layout_height="match_parent"
-                             android:id="@+id/rejectButton"
-                             android:src="@drawable/cancel"
-                ></ImageButton>
             </LinearLayout>
             <TextView
                     android:layout_width="match_parent"
