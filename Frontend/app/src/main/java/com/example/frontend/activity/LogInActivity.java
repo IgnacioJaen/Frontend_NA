@@ -52,7 +52,7 @@ public class LogInActivity extends AppCompatActivity {
                     Retrofit retrofit=new Retrofit.Builder()
                             //.baseUrl("https://jsonplaceholder.typicode.com/")
                             //.baseUrl("http://192.168.0.15:8080/v1/user/")
-                            .baseUrl("http://192.168.31.148:8081/v1/user/")
+                            .baseUrl("http://192.168.1.10:8081/v1/user/")
                             .addConverterFactory(GsonConverterFactory.create())
                             .client(httpClient)
                             .build();

@@ -40,6 +40,7 @@ public class UserSubcategoryActivity extends AppCompatActivity {
     Button btnBack;
     Context context;
     Integer userId, categoryId;
+    String activity;
     public ArrayList<Integer> cbList = new ArrayList<>();
 
     @Override
@@ -49,6 +50,7 @@ public class UserSubcategoryActivity extends AppCompatActivity {
 
         categoryId = getIntent().getIntExtra("categoryId", 0);
         userId = getIntent().getIntExtra("userId", 0);
+        activity = getIntent().getStringExtra("activity");
 
         subcategoryView = findViewById(R.id.subcategoryRecView);
 
@@ -66,7 +68,8 @@ public class UserSubcategoryActivity extends AppCompatActivity {
 
         Retrofit retrofit=new Retrofit.Builder()
                 //.baseUrl("https://jsonplaceholder.typicode.com/")
-                .baseUrl("http://192.168.0.15:8080/v1/")
+                //.baseUrl("http://192.168.0.15:8080/v1/")
+                .baseUrl("http://192.168.1.10:8081/v1/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient)
                 .build();
@@ -96,7 +99,7 @@ public class UserSubcategoryActivity extends AppCompatActivity {
                         }
                         else{
                             boolean n1=comprobarExiste();
-                            Toast.makeText(getApplicationContext(), "Bool: "+n1, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getApplicationContext(), "Bool: "+n1, Toast.LENGTH_SHORT).show();
                             if(n1==true) {
                                 for (int i=0; i<cbList.size() ; i++)
                                 {
@@ -163,6 +166,7 @@ public class UserSubcategoryActivity extends AppCompatActivity {
                         }
                     });
                 }
+
                 Intent intent = new Intent (UserSubcategoryActivity.this, UserCategoryActivity.class);
                 intent.putExtra("userId",userId);
                 startActivity(intent);
