@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.frontend.R;
 import com.example.frontend.adapter.ChatAdapter;
 import com.example.frontend.api.CategoryApi;
@@ -41,8 +48,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
 
 public class EditCategoryActivity extends AppCompatActivity {
 
@@ -53,7 +59,7 @@ public class EditCategoryActivity extends AppCompatActivity {
     String currentPhotoPath;
     Bitmap decoded;
 
-
+    RequestQueue requestQueue;
     static final int REQUEST_PERMISSION_CAMERA = 100;
     static final int REQUEST_TAKE_PHOTO = 101;
 
@@ -73,6 +79,10 @@ public class EditCategoryActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         btnUpload = findViewById(R.id.btnUpload);
         btnCamera = findViewById(R.id.btnCamera);
+
+        requestQueue = Volley.newRequestQueue(this);
+
+
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
@@ -220,7 +230,7 @@ public class EditCategoryActivity extends AppCompatActivity {
 
 
     }
-
+    // Miarroba1234
 
     private File createImageFile() throws IOException{
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
@@ -338,7 +348,40 @@ public class EditCategoryActivity extends AppCompatActivity {
     }
 
     private void uploadImage(){
+        String url = "http://192.168.0.10/camera/upload.php";
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                url,
+                new com.android.volley.Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(EditCategoryActivity.this, "correct", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                new com.android.volley.Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
 
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("path", getStringImage(decoded));
+                return params;
+            }
+        };
+
+        requestQueue.add(stringRequest);
+    }
+
+    private String getStringImage (Bitmap bitmap)
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        return Base64.encodeToString(imageBytes,Base64.DEFAULT);
     }
 
     @Override
