@@ -62,8 +62,7 @@ public class SubcategoryActivity extends AppCompatActivity {
 
         Retrofit retrofit=new Retrofit.Builder()
                 //.baseUrl("https://jsonplaceholder.typicode.com/")
-                //.baseUrl("http://192.168.0.15:8080/v1/")
-                .baseUrl("http://192.168.31.148:8081/v1/")
+                .baseUrl("http://192.168.0.10:8080/v1/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient)
                 .build();

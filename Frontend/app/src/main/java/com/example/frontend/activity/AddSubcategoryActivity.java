@@ -1,6 +1,8 @@
 package com.example.frontend.activity;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,8 +50,7 @@ public class AddSubcategoryActivity extends AppCompatActivity {
 
         Retrofit retrofit=new Retrofit.Builder()
                 //.baseUrl("https://jsonplaceholder.typicode.com/")
-                //.baseUrl("http://192.168.0.15:8080/v1/")
-                .baseUrl("http://192.168.31.148:8081/v1/")
+                .baseUrl("http://192.168.0.10:8080/v1/")
                 //.baseUrl("http://localhost:8080/v1/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient)
@@ -64,38 +65,57 @@ public class AddSubcategoryActivity extends AppCompatActivity {
                 }
                 else {
 
-                    Subcategory subcategory = new Subcategory();
-                    subcategory.setCategoryId(categoryId);
-                    subcategory.setName(etName.getText().toString());
+                    AlertDialog.Builder dialogo1 = new AlertDialog.Builder(AddSubcategoryActivity.this);
+                    dialogo1.setTitle("AGREGAR");
+                    dialogo1.setMessage("¿Esta seguro que desea agregar esta subcategoria?");
+                    dialogo1.setCancelable(false);
+                    dialogo1.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialogo1, int id) {
+                            Subcategory subcategory = new Subcategory();
+                            subcategory.setCategoryId(categoryId);
+                            subcategory.setName(etName.getText().toString());
 
-                    SubcategoryApi subcategoryApi2= retrofit.create(SubcategoryApi.class);
+                            SubcategoryApi subcategoryApi2= retrofit.create(SubcategoryApi.class);
 
-                    Call<Subcategory> call = subcategoryApi2.createSubcategory(subcategory);
+                            Call<Subcategory> call = subcategoryApi2.createSubcategory(subcategory);
 
 
-                    call.enqueue(new Callback<Subcategory>() {
-                        @Override
-                        public void onResponse(Call<Subcategory> call, Response<Subcategory> response) {
-                            if (!response.isSuccessful()) {
-                                Log.d("code","Code: " + response.code());
-                                Toast.makeText(getApplicationContext(),"Is not succesful Error", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
+                            call.enqueue(new Callback<Subcategory>() {
+                                @Override
+                                public void onResponse(Call<Subcategory> call, Response<Subcategory> response) {
+                                    if (!response.isSuccessful()) {
+                                        Log.d("code","Code: " + response.code());
+                                        Toast.makeText(getApplicationContext(),"Is not succesful Error", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
 
-                            Toast.makeText(getApplicationContext(), "Subcategoria agregada exitosamente", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Subcategoria agregada exitosamente", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent (AddSubcategoryActivity.this, CategoryActivity.class);
+                                    intent.putExtra("userId",userId);
+                                    startActivity(intent);
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<Subcategory> call, Throwable t) {
+                                    Log.d("code","Code: " + t.getMessage());
+                                    Toast.makeText(getApplicationContext(),"Error onFailure", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            });
+
+                        }
+                    });
+                    dialogo1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialogo1, int id) {
+                            Toast.makeText(getApplicationContext(), "Operacion Cancelada", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent (AddSubcategoryActivity.this, CategoryActivity.class);
                             intent.putExtra("userId",userId);
                             startActivity(intent);
-
-                        }
-
-                        @Override
-                        public void onFailure(Call<Subcategory> call, Throwable t) {
-                            Log.d("code","Code: " + t.getMessage());
-                            Toast.makeText(getApplicationContext(),"Error onFailure", Toast.LENGTH_SHORT).show();
-                            return;
                         }
                     });
+                    dialogo1.show();
+
 
                 }
 

@@ -12,6 +12,8 @@ import android.os.Bundle;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.example.frontend.R;
 import com.example.frontend.adapter.CategoryAdapter;
 import com.example.frontend.api.CategoryApi;
@@ -34,6 +36,7 @@ public class CategoryActivity extends AppCompatActivity {
     private CategoryAdapter categoryAdapter;
     private RecyclerView.LayoutManager categoryLayout;
     private ArrayList<CategoryRequest> category;
+    private RequestQueue mRequestQueue;
     Integer categoryId, userId;
 
     Button btnBack;
@@ -42,7 +45,6 @@ public class CategoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
-
         btnBack = findViewById(R.id.btnBack);
         userId = getIntent().getIntExtra("userId", 0);
 
@@ -70,14 +72,16 @@ public class CategoryActivity extends AppCompatActivity {
         categoryLayout = new LinearLayoutManager(this);
         categoryView.setLayoutManager(categoryLayout);
 
+        mRequestQueue = Volley.newRequestQueue(this);
+
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(loggingInterceptor).build();
 
         Retrofit retrofit=new Retrofit.Builder()
                 //.baseUrl("https://jsonplaceholder.typicode.com/")
-                //.baseUrl("http://192.168.0.15:8080/v1/category/")
-                .baseUrl("http://192.168.31.148:8081/v1/category/")
+                .baseUrl("http://192.168.0.10:8080/v1/category/")
+                //.baseUrl("http://192.168.31.148:8081/v1/category/")
                 //.baseUrl("http://localhost:8081/v1/category/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient)

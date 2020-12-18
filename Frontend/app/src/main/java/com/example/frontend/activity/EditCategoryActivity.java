@@ -2,6 +2,8 @@ package com.example.frontend.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -32,8 +34,10 @@ import com.android.volley.toolbox.Volley;
 import com.example.frontend.R;
 import com.example.frontend.adapter.ChatAdapter;
 import com.example.frontend.api.CategoryApi;
+import com.example.frontend.api.SubcategoryApi;
 import com.example.frontend.model.Category;
 import com.example.frontend.model.ChatRequest;
+import com.example.frontend.model.Subcategory;
 import com.squareup.picasso.Picasso;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -162,33 +166,46 @@ public class EditCategoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Category category = new Category();
-                category.setCategoryId(categoryId);
-                CategoryApi categoryApi3= retrofit.create(CategoryApi.class);
-                Call<Category> call3 = categoryApi3.deleteCategory(category);
+                AlertDialog.Builder dialogo1 = new AlertDialog.Builder(EditCategoryActivity.this);
+                dialogo1.setTitle("IMPORTANTE");
+                dialogo1.setMessage("¿ Esta seguro que desea eliminar esta categoria ?");
+                dialogo1.setCancelable(false);
+                dialogo1.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+                        Category category = new Category();
+                        category.setCategoryId(categoryId);
+                        CategoryApi categoryApi3= retrofit.create(CategoryApi.class);
+                        Call<Category> call3 = categoryApi3.deleteCategory(category);
 
-                call3.enqueue(new Callback<Category>() {
-                    @Override
-                    public void onResponse(Call<Category> call3, Response<Category> response) {
-                        if (!response.isSuccessful()) {
-                            Log.d("code","Code: " + response.code());
-                            Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        Toast.makeText(getApplicationContext(), "Categoria eliminada exitosamente", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent (EditCategoryActivity.this, CategoryActivity.class);
-                        intent.putExtra("userId",userId);
-                        startActivity(intent);
-                    }
+                        call3.enqueue(new Callback<Category>() {
+                            @Override
+                            public void onResponse(Call<Category> call3, Response<Category> response) {
+                                if (!response.isSuccessful()) {
+                                    Log.d("code","Code: " + response.code());
+                                    Toast.makeText(getApplicationContext(), "1", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                Toast.makeText(getApplicationContext(), "Categoria eliminada exitosamente", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent (EditCategoryActivity.this, CategoryActivity.class);
+                                intent.putExtra("userId",userId);
+                                startActivity(intent);
+                            }
 
-                    @Override
-                    public void onFailure(Call<Category> call, Throwable t) {
-                        Log.d("code","Code: " + t.getMessage());
-                        Toast.makeText(getApplicationContext(), "3", Toast.LENGTH_SHORT).show();
-                        return;
+                            @Override
+                            public void onFailure(Call<Category> call, Throwable t) {
+                                Log.d("code","Code: " + t.getMessage());
+                                Toast.makeText(getApplicationContext(), "3", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        });
                     }
                 });
-
+                dialogo1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogo1, int id) {
+                        finish();
+                    }
+                });
+                dialogo1.show();
             }
         });
 
@@ -201,39 +218,54 @@ public class EditCategoryActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Debes ingresar el nombre de la categoria", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                else if (name.getText().toString().equals("-"))
-                {
-                    Toast.makeText(getApplicationContext(), "Debes ingresar el nombre de la categoria", Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 else {
-                    Category category = new Category();
-                    category.setCategoryId(categoryId);
-                    category.setName(name.getText().toString());
-                    category.setPhotoId(2);
 
-                    CategoryApi categoryApi2= retrofit.create(CategoryApi.class);
-                    Call<Category> call = categoryApi2.editCategory(category);
+                    AlertDialog.Builder dialogo1 = new AlertDialog.Builder(EditCategoryActivity.this);
+                    dialogo1.setTitle("EDITAR");
+                    dialogo1.setMessage("¿Esta seguro que desea editar esta categoria a: "+name.getText().toString()+"?");
+                    dialogo1.setCancelable(false);
+                    dialogo1.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialogo1, int id) {
 
-                    call.enqueue(new Callback<Category>() {
-                        @Override
-                        public void onResponse(Call<Category> call, Response<Category> response) {
-                            if (!response.isSuccessful()) {
-                                Log.d("code","Code: " + response.code());
-                                return;
-                            }
-                            Toast.makeText(getApplicationContext(), "Categoria editada exitosamente", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent (EditCategoryActivity.this, MainActivity.class);
+                            Category category = new Category();
+                            category.setCategoryId(categoryId);
+                            category.setName(name.getText().toString());
+                            category.setPhotoId(2);
+
+                            CategoryApi categoryApi2= retrofit.create(CategoryApi.class);
+                            Call<Category> call = categoryApi2.editCategory(category);
+
+                            call.enqueue(new Callback<Category>() {
+                                @Override
+                                public void onResponse(Call<Category> call, Response<Category> response) {
+                                    if (!response.isSuccessful()) {
+                                        Log.d("code","Code: " + response.code());
+                                        return;
+                                    }
+                                    Toast.makeText(getApplicationContext(), "Categoria editada exitosamente", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent (EditCategoryActivity.this, MainActivity.class);
+                                    intent.putExtra("userId",userId);
+                                    startActivity(intent);
+                                }
+
+                                @Override
+                                public void onFailure(Call<Category> call, Throwable t) {
+                                    Log.d("code","Code: " + t.getMessage());
+                                    return;
+                                }
+                            });
+                        }
+                    });
+                    dialogo1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialogo1, int id) {
+                            Toast.makeText(getApplicationContext(), "Operacion Cancelada", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent (EditCategoryActivity.this, CategoryActivity.class);
                             intent.putExtra("userId",userId);
                             startActivity(intent);
                         }
-
-                        @Override
-                        public void onFailure(Call<Category> call, Throwable t) {
-                            Log.d("code","Code: " + t.getMessage());
-                            return;
-                        }
                     });
+                    dialogo1.show();
+
                 }
 
             }

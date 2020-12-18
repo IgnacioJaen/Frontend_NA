@@ -22,15 +22,16 @@
                 android:text="Agregar Categoria"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/textView3" android:layout_marginTop="10dp"
-                android:textStyle="bold" android:textAllCaps="true" android:textSize="24sp" android:gravity="center"/>
+                android:textStyle="bold" android:textAllCaps="true" android:textSize="24sp" android:gravity="center"
+                android:textColor="#000000"/>
 
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:layout_marginTop="20dp">
             <ImageView
-                    android:layout_width="250dp"
-                    android:layout_height="250dp" app:srcCompat="@android:drawable/ic_menu_gallery"
+                    android:layout_width="225dp"
+                    android:layout_height="225dp" app:srcCompat="@drawable/image"
                     android:id="@+id/imageView" android:layout_marginLeft="55dp"/>
             <LinearLayout
                     android:orientation="vertical"
@@ -38,14 +39,16 @@
                     android:layout_height="match_parent">
                 <Button
                         android:text="CAMARA"
+                        android:background="@null"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" android:id="@+id/button3" android:layout_marginTop="25dp"
+                        android:layout_height="wrap_content" android:id="@+id/btnCamera" android:layout_marginTop="25dp"
                         android:drawableBottom="@android:drawable/ic_menu_camera"/>
                 <Button
                         android:text="SUBIR"
+                        android:background="@null"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" android:id="@+id/button4"
-                        android:drawableBottom="@android:drawable/ic_menu_upload"/>
+                        android:layout_height="wrap_content" android:id="@+id/btnUpload"
+                        android:drawableBottom="@android:drawable/ic_menu_upload" android:layout_marginTop="20dp"/>
             </LinearLayout>
         </LinearLayout>
         <TextView
@@ -53,7 +56,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/textView" android:textStyle="bold|italic"
-                android:textSize="20sp" android:gravity="center"/>
+                android:textSize="20sp" android:gravity="center" android:textColor="#000000"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
