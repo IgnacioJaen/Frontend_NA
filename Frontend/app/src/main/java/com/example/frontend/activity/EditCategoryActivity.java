@@ -127,6 +127,15 @@ public class EditCategoryActivity extends AppCompatActivity {
             }
         });
 
+        btnUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                intent.setType("image/");
+                startActivityForResult(intent.createChooser(intent,"Seleccione la app"), 10);
+            }
+        });
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -310,6 +319,11 @@ public class EditCategoryActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+        }
+
+        if (resultCode == RESULT_OK){
+            Uri path=data.getData();
+            imageView.setImageURI(path);
         }
 
         super.onActivityResult(requestCode, resultCode, data);
