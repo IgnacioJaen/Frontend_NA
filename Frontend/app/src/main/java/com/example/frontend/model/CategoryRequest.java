@@ -3,7 +3,8 @@ package com.example.frontend.model;
 public class CategoryRequest {
     private Integer categoryId;
     private String nameCategory;
-    private String photoCategory;
+    private Integer photoId;
+    private String path;
 
     public CategoryRequest() {
     }
@@ -20,16 +21,24 @@ public class CategoryRequest {
         return nameCategory;
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     public void setNameCategory(String nameCategory) {
         this.nameCategory = nameCategory;
     }
 
-    public String getPhotoCategory() {
-        return photoCategory;
+    public Integer getPhotoId() {
+        return photoId;
     }
 
-    public void setPhotoCategory(String photoCategory) {
-        this.photoCategory = photoCategory;
+    public void setPhotoId(Integer photo_id) {
+        this.photoId = photo_id;
     }
 
     @Override
@@ -37,7 +46,8 @@ public class CategoryRequest {
         return "CategoryRequest{" +
                 "categoryId=" + categoryId +
                 ", nameCategory='" + nameCategory + '\'' +
-                ", photoCategory='" + photoCategory + '\'' +
+                ", photo_id=" + photoId +
+                ", path='" + path + '\'' +
                 '}';
     }
 }

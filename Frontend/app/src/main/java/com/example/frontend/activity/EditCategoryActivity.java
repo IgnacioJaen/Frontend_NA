@@ -34,6 +34,7 @@ import com.example.frontend.adapter.ChatAdapter;
 import com.example.frontend.api.CategoryApi;
 import com.example.frontend.model.Category;
 import com.example.frontend.model.ChatRequest;
+import com.squareup.picasso.Picasso;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.jetbrains.annotations.NotNull;
@@ -110,6 +111,8 @@ public class EditCategoryActivity extends AppCompatActivity {
                 Category category = new Category();
                 category = response.body();
                 name.setText(category.getName());
+                String url = category.getPath();
+                Picasso.get().load(url).resize(350, 350).into(imageView);
                 return;
             }
 

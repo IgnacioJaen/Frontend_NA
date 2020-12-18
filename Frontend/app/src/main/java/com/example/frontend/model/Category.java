@@ -7,7 +7,10 @@ public class Category {
     private Integer categoryId;
     private String name;
     private Integer photoId;
+    private String path;
     private Integer status;
+
+
 
     // Setters Y Getters generados para los demas atributos de la clase Category
     public Integer getCategoryId() {
@@ -15,6 +18,14 @@ public class Category {
     }
     public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public String getName() {
@@ -34,12 +45,14 @@ public class Category {
 
     // Funcion toString generado para imprimir el objeto en una cadena String
 
+
     @Override
     public String toString() {
         return "Category{" +
                 "categoryId=" + categoryId +
                 ", name='" + name + '\'' +
-                ", photoID=" + photoId +
+                ", photoId=" + photoId +
+                ", path='" + path + '\'' +
                 ", status=" + status +
                 '}';
     }
