@@ -21,31 +21,24 @@
         <TextView
                 android:text="Editar Categoria"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/textView3" android:layout_marginTop="10dp"
-                android:textStyle="bold" android:textAllCaps="true" android:textSize="24sp" android:gravity="center"/>
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <Button
-                    android:text="Editar Subcategorias"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:id="@+id/btnSub" android:layout_weight="1"
-                    android:layout_marginTop="10dp" android:layout_marginLeft="30dp" android:background="#37B643"/>
-            <Button
-                    android:layout_width="45dp"
-                    android:background="@null"
-                    android:layout_height="55dp" android:id="@+id/btnDelete"
-                    android:layout_gravity="end" android:layout_marginTop="10dp" android:layout_marginRight="25dp"
-                    android:foreground="@android:drawable/ic_menu_delete" android:layout_marginLeft="25dp"/>
-        </LinearLayout>
+                android:layout_height="wrap_content" android:id="@+id/textView3"
+                android:textAllCaps="true" android:textSize="24sp" android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="#000000" android:fontFamily="monospace"/>
+        <Button
+                android:layout_width="45dp"
+                android:background="@null"
+                android:layout_height="55dp" android:id="@+id/btnDelete"
+                android:layout_marginTop="10dp" android:layout_marginRight="25dp"
+                android:foreground="@android:drawable/ic_menu_delete" android:layout_marginLeft="25dp"
+                android:layout_gravity="right" android:layout_marginBottom="5dp"/>
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:layout_marginTop="10dp">
+                android:layout_height="wrap_content">
             <ImageView
                     android:layout_width="225dp"
-                    android:layout_height="225dp" app:srcCompat="@android:drawable/ic_menu_gallery"
+                    android:layout_height="225dp" app:srcCompat="@drawable/image"
                     android:id="@+id/imageView" android:layout_marginLeft="55dp"/>
             <LinearLayout
                     android:orientation="vertical"
@@ -55,19 +48,31 @@
                         android:text="CAMARA"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:id="@+id/btnCamera" android:layout_marginTop="25dp"
-                        android:drawableBottom="@android:drawable/ic_menu_camera"/>
+                        android:drawableBottom="@android:drawable/ic_menu_camera" android:layout_marginLeft="10dp"/>
                 <Button
                         android:text="SUBIR"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:id="@+id/btnUpload"
-                        android:drawableBottom="@android:drawable/ic_menu_upload"/>
+                        android:drawableBottom="@android:drawable/ic_menu_upload" android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"/>
+
             </LinearLayout>
+
         </LinearLayout>
+        <Button
+                android:text="Editar Subcategorias"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnSub"
+                android:background="@drawable/rectangle_button_signup"
+                android:textSize="17dp"
+                android:layout_gravity="center" android:layout_marginTop="10dp"/>
         <TextView
                 android:text="Nombre de la categoria"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/textView" android:textStyle="bold|italic"
-                android:textSize="18sp" android:gravity="center"/>
+                android:textSize="18sp" android:gravity="center" android:layout_marginTop="10dp"
+                android:textColor="#000000"/>
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,6 +84,6 @@
                 android:text="GUARDAR"
                 android:layout_width="126dp"
                 android:layout_height="wrap_content" android:id="@+id/btnNext"
-                android:layout_marginTop="15dp" android:layout_gravity="center"/>
+                android:layout_marginTop="5dp" android:layout_gravity="center"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
