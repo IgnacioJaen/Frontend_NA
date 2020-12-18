@@ -1,7 +1,13 @@
 package com.example.frontend.activity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -10,8 +16,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import com.example.frontend.R;
 import com.example.frontend.adapter.ChatAdapter;
@@ -20,12 +29,15 @@ import com.example.frontend.model.Category;
 import com.example.frontend.model.ChatRequest;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import org.jetbrains.annotations.NotNull;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -37,8 +49,10 @@ public class EditCategoryActivity extends AppCompatActivity {
     Integer categoryId, userId;
     EditText name;
     Button btnBack, btnNext, btnDelete, btnSub, btnUpload, btnCamera;
-    ImageView ivCategory;
+    ImageView imageView;
     String currentPhotoPath;
+    Bitmap decoded;
+
 
     static final int REQUEST_PERMISSION_CAMERA = 100;
     static final int REQUEST_TAKE_PHOTO = 101;
@@ -51,6 +65,7 @@ public class EditCategoryActivity extends AppCompatActivity {
         categoryId = getIntent().getIntExtra("categoryId", 0);
         userId = getIntent().getIntExtra("userId", 0);
         name = findViewById(R.id.etName);
+        imageView = findViewById(R.id.imageView);
 
         btnNext = findViewById(R.id.btnNext);
         btnSub = findViewById(R.id.btnSub);
@@ -65,7 +80,7 @@ public class EditCategoryActivity extends AppCompatActivity {
 
         Retrofit retrofit=new Retrofit.Builder()
                 //.baseUrl("https://jsonplaceholder.typicode.com/")
-                .baseUrl("http://192.168.0.15:8080/v1/")
+                .baseUrl("http://192.168.0.10:8080/v1/")
                 //.baseUrl("http://192.168.31.148:8081/v1/")
                 //.baseUrl("http://localhost:8080/v1/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -220,10 +235,6 @@ public class EditCategoryActivity extends AppCompatActivity {
         return image;
     }
 
-    private void checkPermission(){
-
-    }
-
     private void takePicture() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager())!=null){
@@ -251,5 +262,92 @@ public class EditCategoryActivity extends AppCompatActivity {
         }
     }
 
+    private void checkPermission(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)== PackageManager.PERMISSION_GRANTED){
+                takePicture();
+            }
+            else
+            {
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{Manifest.permission.CAMERA},
+                        REQUEST_PERMISSION_CAMERA
+                );
+            }
+        }
+        else{
+            takePicture();
+        }
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+
+        if (requestCode == REQUEST_TAKE_PHOTO){
+            //imageView.setImageResource(R.drawable.bg1);
+            if (resultCode == Activity.RESULT_OK ){
+                try {
+                    File file = new File(currentPhotoPath);
+                    Uri uri = Uri.fromFile(file);
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(
+                            this.getContentResolver(),
+                            uri
+                    );
+                    setToImageView(getToResizedBitmap(bitmap, 480));
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private Bitmap getToResizedBitmap(Bitmap bitmap, int maxSize) {
+
+        int width = bitmap.getWidth();
+        int heigth = bitmap.getHeight();
+        if (width <= maxSize && heigth <= maxSize)
+        {
+            return bitmap;
+        }
+        float bitmapRatio = (float) width / (float) heigth;
+
+        if(bitmapRatio > 1)
+        {
+            width=maxSize;
+            heigth=(int)(width/bitmapRatio);
+        }
+        else
+        {
+            heigth = maxSize;
+            width = (int) (heigth * bitmapRatio);
+        }
+
+        return Bitmap.createScaledBitmap(bitmap, 400, 400, true);
+
+    }
+
+    private void setToImageView(Bitmap bitmap) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(bytes.toByteArray()));
+        imageView.setImageBitmap(decoded);
+    }
+
+    private void uploadImage(){
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull @NotNull String[] permissions, @NonNull @NotNull int[] grantResults) {
+        if (requestCode == REQUEST_PERMISSION_CAMERA){
+            if (permissions.length == 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED ){
+                takePicture();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 }
