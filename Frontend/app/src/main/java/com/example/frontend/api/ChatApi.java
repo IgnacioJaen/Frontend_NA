@@ -3,6 +3,7 @@ package com.example.frontend.api;
 import com.example.frontend.model.Chat;
 import com.example.frontend.model.ChatRequest;
 import com.example.frontend.model.Subcategory;
+import com.example.frontend.model.User;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -16,7 +17,12 @@ public interface ChatApi {
     @GET("{chatId}")
     Call<ArrayList<Chat>> getChatById(@Path("chatId") Integer chatId);
 
+    @GET("lastChatId")
+    Call<Integer> lastChatId();
+
     @DELETE("delete/")
     Call<Integer> deleteChat(@Query("chatId") int chatId);
 
+    @POST("post")
+    Call<Chat> createChat(@Body Chat chat);
 }

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="150dp"
+                                   android:layout_marginTop="10dp"
+                                   android:background="@drawable/borders"
+                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                   app:cardCornerRadius="3dp"
+>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/borders"
+            android:id="@+id/linLayMessageCard"
+    >
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+        >
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+            >
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="UserName"
+                        android:textStyle="bold"
+                        android:textColor="#382275"
+                        android:id="@+id/userNameMatch"
+                        android:textSize="40dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                ></TextView>
+                <ImageButton android:layout_width="wrap_content"
+                             android:layout_height="match_parent"
+                             android:id="@+id/acceptButton"
+                             android:src="@drawable/check"
+                        ></ImageButton>
+                <ImageButton android:layout_width="60dp"
+                             android:layout_height="match_parent"
+                             android:id="@+id/rejectButton"
+                             android:src="@drawable/cancel"
+                ></ImageButton>
+            </LinearLayout>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:text="Subcategory"
+                    android:id="@+id/subMatch"
+                    android:layout_marginLeft="5dp"
+                    android:background="#D2E6FAED"
+                    android:textSize="30dp"
+            ></TextView>
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -4,10 +4,18 @@ public class UserSubcategory {
 
     private Integer userSubId;
     private Integer userId;
+    private String userName;
     private String subName;
     private Integer subcategoryId;
     private Integer status;
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public String getSubName() {
         return subName;
